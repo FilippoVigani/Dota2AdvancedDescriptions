@@ -11,8 +11,13 @@ namespace Dota2AdvancedDescriptions.Tools
 {
     public class DotaHtmlParser
     {
+        public DotaHtmlParser()
+        {
+        }
 
-        public void ParseAbilitiesCastPoints(string url, string tableClass)
+        public Dictionary<string, Dictionary<string, string>> Abilities;
+
+        public void ParseAbilitiesCastPoints()
         {
             WebClient webClient = new WebClient();
             string page = webClient.DownloadString(Settings.Default.CastPointsTableAddress);
@@ -21,9 +26,10 @@ namespace Dota2AdvancedDescriptions.Tools
             doc.LoadHtml(page);
 
             var nodes = doc.DocumentNode.SelectNodes(Settings.Default.CastPointsTableXPath);
-            HtmlNode node = nodes.ElementAt(Settings.Default.CastPointsTableIndex); 
+            HtmlNode node = nodes.ElementAt(Settings.Default.CastPointsTableIndex);
 
-            Dictionary<string, Dictionary<string, string>> abilities = new Dictionary<string, Dictionary<string, string>>();
+            Abilities = new Dictionary<string, Dictionary<string, string>>();
+
             foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
             {
                 Dictionary<string, string> ability = new Dictionary<string, string>();
@@ -31,7 +37,7 @@ namespace Dota2AdvancedDescriptions.Tools
                 {
                     ability.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
                 }
-                abilities.Add(ability.ElementAt(0).Value, ability);
+                Abilities.Add(ability.ElementAt(0).Value, ability);
             }
         }
     }

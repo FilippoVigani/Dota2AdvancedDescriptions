@@ -14,7 +14,7 @@ namespace Dota2AdvancedDescriptions
         public MainWindowViewModel()
         {
             _htmlParser = new DotaHtmlParser();
-            _htmlParser.ParseAbilitiesCastPoints(null, null);
+            _htmlParser.ParseAbilitiesCastPoints();
         }
     }
 }
