@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Dota2AdvancedDescriptions.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CastPointsTableIndex" Provider="PortableSettingsProvider" Roaming="true" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CastPointsTableXPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//table</Value>
+    </Setting>
+    <Setting Name="Tr" Type="System.String" Scope="User">
+      <Value Profile="(Default)">tr</Value>
+    </Setting>
+    <Setting Name="Td" Type="System.String" Scope="User">
+      <Value Profile="(Default)">td</Value>
+    </Setting>
+    <Setting Name="Th" Type="System.String" Scope="User">
+      <Value Profile="(Default)">th</Value>
+    </Setting>
+    <Setting Name="CastPointsTableAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://dota2.gamepedia.com/index.php?title=Cast_animation&amp;printable=yes</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
