@@ -2,23 +2,32 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Dota2AdvancedDescriptions.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CastPointsTableIndex" Provider="PortableSettingsProvider" Roaming="true" Type="System.Int32" Scope="User">
+    <Setting Name="CastPointsTableIndex" Roaming="true" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="CastPointsTableXPath" Type="System.String" Scope="User">
+    <Setting Name="CastPointsTableXPath" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">//table</Value>
     </Setting>
-    <Setting Name="Tr" Type="System.String" Scope="User">
+    <Setting Name="Tr" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">tr</Value>
     </Setting>
-    <Setting Name="Td" Type="System.String" Scope="User">
+    <Setting Name="Td" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">td</Value>
     </Setting>
     <Setting Name="Th" Type="System.String" Scope="User">
       <Value Profile="(Default)">th</Value>
     </Setting>
-    <Setting Name="CastPointsTableAddress" Type="System.String" Scope="User">
+    <Setting Name="CastPointsTableAddress" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://dota2.gamepedia.com/index.php?title=Cast_animation&amp;printable=yes</Value>
+    </Setting>
+    <Setting Name="TableIdIndex" Roaming="true" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ResourcesFolderPath" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource</Value>
+    </Setting>
+    <Setting Name="DotaResourceMatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DOTA_Tooltip_ability</Value>
     </Setting>
   </Settings>
 </SettingsFile>

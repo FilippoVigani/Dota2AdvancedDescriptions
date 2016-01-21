@@ -24,7 +24,6 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
@@ -40,6 +39,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("//table")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string CastPointsTableXPath {
             get {
                 return ((string)(this["CastPointsTableXPath"]));
@@ -52,6 +52,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("tr")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string Tr {
             get {
                 return ((string)(this["Tr"]));
@@ -64,6 +65,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("td")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string Td {
             get {
                 return ((string)(this["Td"]));
@@ -88,12 +90,51 @@ namespace Dota2AdvancedDescriptions.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://dota2.gamepedia.com/index.php?title=Cast_animation&printable=yes")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string CastPointsTableAddress {
             get {
                 return ((string)(this["CastPointsTableAddress"]));
             }
             set {
                 this["CastPointsTableAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public int TableIdIndex {
+            get {
+                return ((int)(this["TableIdIndex"]));
+            }
+            set {
+                this["TableIdIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\dota\\resource")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public string ResourcesFolderPath {
+            get {
+                return ((string)(this["ResourcesFolderPath"]));
+            }
+            set {
+                this["ResourcesFolderPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DOTA_Tooltip_ability")]
+        public string DotaResourceMatch {
+            get {
+                return ((string)(this["DotaResourceMatch"]));
+            }
+            set {
+                this["DotaResourceMatch"] = value;
             }
         }
     }

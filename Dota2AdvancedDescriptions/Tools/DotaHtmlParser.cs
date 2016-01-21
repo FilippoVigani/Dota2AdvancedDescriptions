@@ -15,29 +15,29 @@ namespace Dota2AdvancedDescriptions.Tools
         {
         }
 
-        public Dictionary<string, Dictionary<string, string>> Abilities;
+        public Dictionary<string, Dictionary<string, string>> ParsedData;
 
-        public void ParseAbilitiesCastPoints()
+        public void ParseAbilitiesCastPoints(string address, string xpath, int tableIndex)
         {
             WebClient webClient = new WebClient();
-            string page = webClient.DownloadString(Settings.Default.CastPointsTableAddress);
+            string page = webClient.DownloadString(address);
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(page);
 
-            var nodes = doc.DocumentNode.SelectNodes(Settings.Default.CastPointsTableXPath);
-            HtmlNode node = nodes.ElementAt(Settings.Default.CastPointsTableIndex);
+            var nodes = doc.DocumentNode.SelectNodes(xpath);
+            HtmlNode node = nodes.ElementAt(tableIndex);
 
-            Abilities = new Dictionary<string, Dictionary<string, string>>();
+            ParsedData = new Dictionary<string, Dictionary<string, string>>();
 
             foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
             {
-                Dictionary<string, string> ability = new Dictionary<string, string>();
+                Dictionary<string, string> parsedRow = new Dictionary<string, string>();
                 for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
                 {
-                    ability.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
+                    parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
                 }
-                Abilities.Add(ability.ElementAt(0).Value, ability);
+                ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
             }
         }
     }
