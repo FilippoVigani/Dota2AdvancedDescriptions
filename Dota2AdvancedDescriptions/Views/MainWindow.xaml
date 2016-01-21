@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dota2AdvancedDescriptions"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         

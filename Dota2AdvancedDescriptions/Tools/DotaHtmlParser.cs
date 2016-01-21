@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Dota2AdvancedDescriptions.Tools
 {
@@ -26,6 +27,14 @@ namespace Dota2AdvancedDescriptions.Tools
             doc.LoadHtml(page);
 
             var nodes = doc.DocumentNode.SelectNodes(xpath);
+            if (nodes == null)
+            {
+                var r = MessageBox.Show("Error while getting data from " + address + ".\nCheck your internet connection.\nThe application will be closed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (r == MessageBoxResult.OK)
+                {
+                    Environment.Exit(-1);
+                }
+            }
             HtmlNode node = nodes.ElementAt(tableIndex);
 
             ParsedData = new Dictionary<string, Dictionary<string, string>>();

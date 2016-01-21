@@ -26,8 +26,20 @@
     <Setting Name="ResourcesFolderPath" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource</Value>
     </Setting>
-    <Setting Name="DotaResourceMatch" Type="System.String" Scope="User">
+    <Setting Name="DotaResourceMatch" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)">DOTA_Tooltip_ability</Value>
+    </Setting>
+    <Setting Name="TableAbilityHeroSeparator" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)"> - </Value>
+    </Setting>
+    <Setting Name="HeroNamePrefix" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">npc_dota_hero_</Value>
+    </Setting>
+    <Setting Name="AbilityResourcePrefix" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DOTA_Tooltip_ability_</Value>
+    </Setting>
+    <Setting Name="ExcludeFromHeroesNames" Type="System.String" Scope="User">
+      <Value Profile="(Default)">bio</Value>
     </Setting>
   </Settings>
 </SettingsFile>

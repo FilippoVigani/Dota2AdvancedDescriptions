@@ -129,12 +129,64 @@ namespace Dota2AdvancedDescriptions.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("DOTA_Tooltip_ability")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string DotaResourceMatch {
             get {
                 return ((string)(this["DotaResourceMatch"]));
             }
             set {
                 this["DotaResourceMatch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(" - ")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public string TableAbilityHeroSeparator {
+            get {
+                return ((string)(this["TableAbilityHeroSeparator"]));
+            }
+            set {
+                this["TableAbilityHeroSeparator"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("npc_dota_hero_")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public string HeroNamePrefix {
+            get {
+                return ((string)(this["HeroNamePrefix"]));
+            }
+            set {
+                this["HeroNamePrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DOTA_Tooltip_ability_")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public string AbilityResourcePrefix {
+            get {
+                return ((string)(this["AbilityResourcePrefix"]));
+            }
+            set {
+                this["AbilityResourcePrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bio")]
+        public string ExcludeFromHeroesNames {
+            get {
+                return ((string)(this["ExcludeFromHeroesNames"]));
+            }
+            set {
+                this["ExcludeFromHeroesNames"] = value;
             }
         }
     }

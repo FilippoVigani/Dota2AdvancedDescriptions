@@ -18,6 +18,10 @@ namespace Dota2AdvancedDescriptions
 
         public MainWindowViewModel()
         {
+        }
+
+        internal void Load()
+        {
             _htmlParser = new DotaHtmlParser();
             _resourcesParser = new DotaResourcesParser(ResourcesFilePath);
             _htmlParser.ParseAbilitiesCastPoints(Settings.Default.CastPointsTableAddress, Settings.Default.CastPointsTableXPath, Settings.Default.CastPointsTableIndex);
@@ -25,7 +29,6 @@ namespace Dota2AdvancedDescriptions
             _resourcesEditor = new DotaResourcesEditor();
             _resourcesEditor.PrepareResources(ResourcesFilePath, _htmlParser.ParsedData, _resourcesParser.ParsedResources);
             _resourcesEditor.PublishResources(ResourcesFilePath);
-            Console.Write("ya");
         }
 
         public string ResourcesFilePath

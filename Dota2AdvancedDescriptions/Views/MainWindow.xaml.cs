@@ -27,5 +27,10 @@ namespace Dota2AdvancedDescriptions
             InitializeComponent();
             _viewModel = new MainWindowViewModel();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Load();
+        }
     }
 }

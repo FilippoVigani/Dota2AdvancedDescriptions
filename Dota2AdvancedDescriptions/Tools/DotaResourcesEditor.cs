@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dota2AdvancedDescriptions.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -19,7 +20,7 @@ namespace Dota2AdvancedDescriptions.Tools
         {
         }
 
-        public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, string> parsedResources)
+        public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, Dictionary<string, string>> parsedResources)
         {
             TmpFilePath = Path.GetTempFileName();
             StreamReader reader = new StreamReader(filePath);
@@ -31,19 +32,21 @@ namespace Dota2AdvancedDescriptions.Tools
                     string output = input;
                     foreach(var abilityData in data)
                     {
-                        string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(" - ") - 1).Trim();
-                        string abilityName = abilityData.Key.Substring(abilityData.Key.IndexOf(" - ") + 1).Trim();
-                        var resource = parsedResources.Where(res => abilityName == res.Value);
+                        string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
+                        string abilityName = abilityData.Key.Substring(abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
+                        var heroResources = parsedResources.First(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
+                        var abilityKeys = heroResources.Where(res => abilityName == res.Value);
                         //Perform editing
-                        if (resource.Count() > 1)
+                        if (abilityKeys.Count() > 1)
                         {
-                            Console.Write("aatwta");
                             throw new Exception("Too many resources");
                         }
-                        if (resource.Count() == 0)
+                        if (abilityKeys.Count() == 0)
                         {
                             throw new Exception("Resource not found: " + abilityData.Key);
                         }
+                        string abilityKey = abilityKeys.ElementAt(0).Key;
+                        string desc = heroResources[abilityKey + "_Description"];
                     }
                     writer.Write(output);
                 }
