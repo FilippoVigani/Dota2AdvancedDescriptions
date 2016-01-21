@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dota2AdvancedDescriptions"
         xmlns:views="clr-namespace:Dota2AdvancedDescriptions.Views"
+        xmlns:helpers="clr-namespace:Dota2AdvancedDescriptions.Helpers"
+        xmlns:enums="clr-namespace:Dota2AdvancedDescriptions.Enums"
+        xmlns:properties="clr-namespace:Dota2AdvancedDescriptions.Properties"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
@@ -18,6 +21,14 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        <!-- Settings -->
+        <Grid Grid.Row="0"
+              Grid.Column="0">
+            <ComboBox DisplayMemberPath="DisplayName"
+                      ItemsSource="{helpers:EnumToItemsSource {x:Type enums:ExtraTextPosition}}"
+                      SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=ExtraTextPosition}"
+                      SelectedValuePath="Value" VerticalAlignment="Top" />
+        </Grid>
         <views:PreviewUserControl Grid.Column="1" VerticalAlignment="Top" MinHeight="300" />
         <StatusBar Grid.Row="1" DataContext="{Binding StatusBarViewModel}" Grid.ColumnSpan="2">
             <StatusBarItem>

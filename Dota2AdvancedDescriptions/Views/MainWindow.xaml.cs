@@ -26,6 +26,7 @@ namespace Dota2AdvancedDescriptions
         {
             InitializeComponent();
             _viewModel = new MainWindowViewModel();
+            DataContext = _viewModel;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -202,5 +202,29 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["ResourcesEnglishModifier"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ExtraTextPosition {
+            get {
+                return ((int)(this["ExtraTextPosition"]));
+            }
+            set {
+                this["ExtraTextPosition"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cast point: {0}\\nCast backswing: {1}")]
+        public string ExtraTextFormat {
+            get {
+                return ((string)(this["ExtraTextFormat"]));
+            }
+            set {
+                this["ExtraTextFormat"] = value;
+            }
+        }
     }
 }

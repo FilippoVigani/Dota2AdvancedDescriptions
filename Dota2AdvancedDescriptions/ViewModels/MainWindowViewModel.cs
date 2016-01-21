@@ -19,22 +19,47 @@ namespace Dota2AdvancedDescriptions
         private DotaResourcesEditor _resourcesEditor;
 
         private StatusBarViewModel _statusBarViewModel;
+        public StatusBarViewModel StatusBarViewModel
+        {
+            get
+            {
+                return _statusBarViewModel;
+            }
+            set
+            {
+                SetProperty(ref _statusBarViewModel, value);
+            }
+        }
+        private PreviewViewModel _previewViewModel;
+        public PreviewViewModel PreviewViewModel
+        {
+            get
+            {
+                return _previewViewModel;
+            }
+            set
+            {
+                SetProperty(ref _previewViewModel, value);
+            }
+        }
 
         public MainWindowViewModel()
         {
-            _statusBarViewModel = new StatusBarViewModel();
-            StatusBarHelper.Instance = new StatusBarHelper(_statusBarViewModel);
+            StatusBarViewModel = new StatusBarViewModel();
+            StatusBarHelper.Instance = new StatusBarHelper(StatusBarViewModel);
+            PreviewViewModel = new PreviewViewModel();
         }
 
         internal void Load()
         {
             _htmlParser = new DotaHtmlParser();
             _resourcesParser = new DotaResourcesParser(ResourcesFilePath);
+            _resourcesEditor = new DotaResourcesEditor();
+            /*
             _htmlParser.ParseAbilitiesCastPoints(Settings.Default.CastPointsTableAddress, Settings.Default.CastPointsTableXPath, Settings.Default.CastPointsTableIndex);
             _resourcesParser.ParseResources();
-            _resourcesEditor = new DotaResourcesEditor();
             _resourcesEditor.PrepareResources(ResourcesFilePath, _htmlParser.ParsedData, _resourcesParser.ParsedResources);
-            _resourcesEditor.PublishResources(ResourcesFilePath);
+            _resourcesEditor.PublishResources(ResourcesFilePath);*/
         }
 
         public string ResourcesFilePath

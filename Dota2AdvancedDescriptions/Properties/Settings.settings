@@ -47,5 +47,11 @@
     <Setting Name="ResourcesEnglishModifier" Type="System.String" Scope="User">
       <Value Profile="(Default)">[english]</Value>
     </Setting>
+    <Setting Name="ExtraTextPosition" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ExtraTextFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Cast point: {0}\nCast backswing: {1}</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
