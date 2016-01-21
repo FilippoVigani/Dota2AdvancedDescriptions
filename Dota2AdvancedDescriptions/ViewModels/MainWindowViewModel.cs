@@ -1,5 +1,7 @@
-﻿using Dota2AdvancedDescriptions.Properties;
+﻿using Dota2AdvancedDescriptions.Helpers;
+using Dota2AdvancedDescriptions.Properties;
 using Dota2AdvancedDescriptions.Tools;
+using Dota2AdvancedDescriptions.ViewModels;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -16,8 +18,12 @@ namespace Dota2AdvancedDescriptions
         private DotaResourcesParser _resourcesParser;
         private DotaResourcesEditor _resourcesEditor;
 
+        private StatusBarViewModel _statusBarViewModel;
+
         public MainWindowViewModel()
         {
+            _statusBarViewModel = new StatusBarViewModel();
+            StatusBarHelper.Instance = new StatusBarHelper(_statusBarViewModel);
         }
 
         internal void Load()

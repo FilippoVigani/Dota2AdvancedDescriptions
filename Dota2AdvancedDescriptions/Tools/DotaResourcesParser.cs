@@ -29,42 +29,78 @@ namespace Dota2AdvancedDescriptions.Tools
             var lines = File.ReadAllLines(_filePath);
             Regex regex = new Regex("\"(.*?)\"", RegexOptions.IgnoreCase);
             KeyValuePair<string, Dictionary<string, string>> heroSpecificResourceContainer = new KeyValuePair<string, Dictionary<string, string>>();
-            foreach (var line in lines)
+            //Joining hero name with display name (different file)
+            bool heroNamesCreatedFromDifferentFile = Path.Combine(Path.GetDirectoryName(_filePath), Settings.Default.DefaultResourcesFileName) != _filePath;
+            if (heroNamesCreatedFromDifferentFile)
             {
-                //Joining hero name with display name
-                if (line.Contains(Settings.Default.HeroNamePrefix) && !line.Contains(Settings.Default.ExcludeFromHeroesNames))
+                var sourceLines = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(_filePath), Settings.Default.DefaultResourcesFileName));
+                foreach (var line in sourceLines)
                 {
-                    var names = new List<object>(regex.Matches(line).Cast<object>());
-                    if (names.Count == 2)
+                    if (line.Contains(Settings.Default.HeroNamePrefix) && !line.Contains(Settings.Default.ExcludeFromHeroesNames))
                     {
-                        var heroNameRes = names[0].ToString().Trim().Replace(Settings.Default.HeroNamePrefix, "").Replace("\"", "");
-                        var heroName = names[1].ToString().Trim().Replace("\"", "");
-                        HeroNameResToName.Add(heroNameRes, heroName);
+                        var names = new List<object>(regex.Matches(line).Cast<object>());
+                        if (names.Count == 2)
+                        {
+                            var heroNameRes = names[0].ToString().Trim().Replace(Settings.Default.HeroNamePrefix, "").Replace("\"", "");
+                            var heroName = names[1].ToString().Trim().Replace("\"", "");
+                            HeroNameResToName.Add(heroNameRes, heroName);
+                        }
                     }
                 }
+            }
+            foreach (var line in lines)
+            {
+                //Joining hero name with display name (same file)
+                if (!heroNamesCreatedFromDifferentFile)
+                {
+                    if (line.Contains(Settings.Default.HeroNamePrefix) && !line.Contains(Settings.Default.ExcludeFromHeroesNames))
+                    {
+                        var names = new List<object>(regex.Matches(line).Cast<object>());
+                        if (names.Count == 2)
+                        {
+                            var heroNameRes = names[0].ToString().Trim().Replace(Settings.Default.HeroNamePrefix, "").Replace("\"", "");
+                            var heroName = names[1].ToString().Trim().Replace("\"", "");
+                            HeroNameResToName.Add(heroNameRes, heroName);
+                        }
+                    }
+                }
+
+                var matches = new List<string>(regex.Matches(line).Cast<object>().Select(s => s.ToString()));
+                if (matches.Count > 2)
+                {
+                    string keyString = matches[0];
+                    string matchWithQuotationMarks = line.Replace(keyString, "").Trim();
+                    matches = new List<string>();
+                    matches.Add(keyString);
+                    matches.Add(matchWithQuotationMarks);
+                }
+                matches = matches.Select(s => s.Length >= 2 ? s.Substring(1, s.Length - 2) : s).ToList();
+
                 //Group by hero
                 if (line.Contains(Settings.Default.AbilityResourcePrefix))
                 {
-                    string heroName = HeroNameResToName.FirstOrDefault(x => line.Replace(Settings.Default.AbilityResourcePrefix, "").Trim().Contains(x.Key)).Key;
-                    if(heroName != null)
+                    var hero = HeroNameResToName.FirstOrDefault(x => matches[0].Replace(Settings.Default.AbilityResourcePrefix, "").Trim().StartsWith(x.Key));
+                    string heroKey = hero.Key;
+                    if (heroKey != null)
                     {
-                        if (!ParsedResources.ContainsKey(HeroNameResToName[heroName]))
+                        if (!ParsedResources.ContainsKey(HeroNameResToName[heroKey]))
                         {
-                            heroSpecificResourceContainer = new KeyValuePair<string, Dictionary<string, string>>(HeroNameResToName[heroName], new Dictionary<string, string>());
+                            heroSpecificResourceContainer = new KeyValuePair<string, Dictionary<string, string>>(HeroNameResToName[heroKey], new Dictionary<string, string>());
                             ParsedResources.Add(heroSpecificResourceContainer.Key, heroSpecificResourceContainer.Value);
                         }
-                    } else
+                    }
+                    else
                     {
 
                     }
                 }
                 //Adding matches
-                var matches = new List<object>(regex.Matches(line).Cast<object>());
+
                 if (matches.Count == 2 && CultureInfo.CurrentCulture.CompareInfo.IndexOf(matches[0].ToString(), Settings.Default.DotaResourceMatch, CompareOptions.IgnoreCase) >= 0)
                 {
                     if (heroSpecificResourceContainer.Value != null)
                     {
-                        heroSpecificResourceContainer.Value.Add(matches[0].ToString().Replace("\"", ""), matches[1].ToString().Replace("\"", ""));
+                        heroSpecificResourceContainer.Value.Add(matches[0], matches[1]);
                     }
                 }
             }

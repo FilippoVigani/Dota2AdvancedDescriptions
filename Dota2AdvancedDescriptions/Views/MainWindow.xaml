@@ -4,10 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dota2AdvancedDescriptions"
+        xmlns:views="clr-namespace:Dota2AdvancedDescriptions.Views"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="MainWindow" Height="350" Width="525">
+        WindowStartupLocation="CenterScreen"
+        Title="Dota 2 Advanced Descriptions" Height="720" Width="1080">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <views:PreviewUserControl Grid.Column="1" VerticalAlignment="Top" MinHeight="300" />
+        <StatusBar Grid.Row="1" DataContext="{Binding StatusBarViewModel}" Grid.ColumnSpan="2">
+            <StatusBarItem>
+                <TextBlock Text="{Binding Status}" />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

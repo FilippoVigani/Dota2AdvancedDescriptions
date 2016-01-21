@@ -15,6 +15,7 @@ namespace Dota2AdvancedDescriptions.Tools
     public class DotaResourcesEditor
     {
         public string TmpFilePath;
+        private string AppData => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Process.GetCurrentProcess().ProcessName);
 
         public DotaResourcesEditor()
         {
@@ -34,19 +35,40 @@ namespace Dota2AdvancedDescriptions.Tools
                     {
                         string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
                         string abilityName = abilityData.Key.Substring(abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
-                        var heroResources = parsedResources.First(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
-                        var abilityKeys = heroResources.Where(res => abilityName == res.Value);
-                        //Perform editing
+                        //Fix for spells such as brewmaster with double separator
+                        if (abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) >= 0)
+                        {
+                            abilityName = abilityName.Substring(abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
+                        }
+                        var heroResources = parsedResources.FirstOrDefault(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
+                        if (heroResources == null) continue;
+                        var abilityKeys = heroResources.Where(res => abilityName.Equals(res.Value, StringComparison.OrdinalIgnoreCase));
+                        var unlocalizedKeys = abilityKeys.Select(a => a.Key.Replace(Settings.Default.ResourcesEnglishModifier, ""));
+                        abilityKeys = heroResources.Where(res => unlocalizedKeys.Contains(res.Key));
+                        
+                        //Most of form-changing abilities have the same cast point, so it shouldn't be a problem
                         if (abilityKeys.Count() > 1)
                         {
-                            throw new Exception("Too many resources");
+                            Console.WriteLine("Warning: multiple data found on the same ability \"" + abilityName + "\": (" + string.Join(", ", abilityKeys.Select(x => x.Key).ToArray()) + "). There might be unattendable values. Values will be set to first match by default.");
                         }
                         if (abilityKeys.Count() == 0)
                         {
-                            throw new Exception("Resource not found: " + abilityData.Key);
+                            Console.WriteLine("Resource not found: " + abilityData.Key);
+                            continue;
                         }
-                        string abilityKey = abilityKeys.ElementAt(0).Key;
-                        string desc = heroResources[abilityKey + "_Description"];
+                        //Perform editing
+                        foreach (var abilityKey in abilityKeys.Select(a => a.Key))
+                        {
+                            if (heroResources.ContainsKey(abilityKey + "_Description"))
+                            {
+                                string desc = heroResources[abilityKey + "_Description"];
+                            } else
+                            {
+                                //Some resources are missing on foreign languages
+                                Console.WriteLine("Missing resource: " + abilityKey + "_Description");
+                            }
+                            
+                        }
                     }
                     writer.Write(output);
                 }
@@ -57,6 +79,38 @@ namespace Dota2AdvancedDescriptions.Tools
 
         public void PublishResources(string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("File doesn't exist at the path: " + filePath, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            //Backing up old file
+            Directory.CreateDirectory(AppData);
+            string bckFile = Path.Combine(AppData, Path.GetFileName(filePath));
+            if (!File.Exists(bckFile))
+            {
+                File.Copy(filePath, bckFile);
+            }
+
+            CopyAsAdmin(TmpFilePath, filePath);
+        }
+
+        public void RevertResources(string filePath)
+        {
+            //Restoring old file
+            Directory.CreateDirectory(AppData);
+            string bckFile = Path.Combine(AppData, Path.GetFileName(filePath));
+
+            if (!File.Exists(bckFile))
+            {
+                return;
+            }
+
+            CopyAsAdmin(bckFile, filePath);
+        }
+
+        private void CopyAsAdmin(string sourcePath, string destPath)
+        {
             try
             {
                 if (Environment.OSVersion.Version.Major >= 6)
@@ -65,7 +119,7 @@ namespace Dota2AdvancedDescriptions.Tools
                     ProcessStartInfo startInfo = new ProcessStartInfo();
                     startInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     startInfo.FileName = "cmd.exe";
-                    startInfo.Arguments = String.Format("/c COPY /y {0} {1}", TmpFilePath, filePath);
+                    startInfo.Arguments = String.Format("/c COPY /y {0} {1}", sourcePath, destPath);
                     startInfo.UseShellExecute = true;
                     startInfo.Verb = "runas";
                     p.StartInfo = startInfo;
