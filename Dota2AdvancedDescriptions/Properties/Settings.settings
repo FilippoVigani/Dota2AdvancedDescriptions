@@ -53,5 +53,8 @@
     <Setting Name="ExtraTextFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cast point: {0}\nCast backswing: {1}</Value>
     </Setting>
+    <Setting Name="SelectedResourcesFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dota_english.txt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

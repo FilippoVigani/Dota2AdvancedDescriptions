@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Dota2AdvancedDescriptions.Helpers
 {
@@ -20,7 +21,8 @@ namespace Dota2AdvancedDescriptions.Helpers
 
         public void SetStatus(string status)
         {
-            _viewModel.Status = status;
+            Console.WriteLine(status);
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() => { _viewModel.Status = status; }), DispatcherPriority.ContextIdle, null);
         }
     }
 }

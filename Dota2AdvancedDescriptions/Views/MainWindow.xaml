@@ -11,7 +11,10 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
-        Title="Dota 2 Advanced Descriptions" Height="720" Width="1080">
+        Title="Dota 2 Advanced Descriptions"
+        Closing="Window_Closing"
+        Height="720"
+        Width="1080">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -24,15 +27,64 @@
         <!-- Settings -->
         <Grid Grid.Row="0"
               Grid.Column="0">
-            <ComboBox DisplayMemberPath="DisplayName"
-                      ItemsSource="{helpers:EnumToItemsSource {x:Type enums:ExtraTextPosition}}"
-                      SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=ExtraTextPosition}"
-                      SelectedValuePath="Value" VerticalAlignment="Top" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="Setup"
+                      Grid.Row="0">
+                <DockPanel>
+                    <ComboBox DockPanel.Dock="Right" MinWidth="100"
+                              ItemsSource="{Binding AvailableResourceFileNames}"
+                              SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=SelectedResourcesFileName}" />
+                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=ResourcesFolderPath}" />
+                </DockPanel>
+            </GroupBox>
+
+            <GroupBox Header="Appereance"
+                      Grid.Row="1">
+                <ComboBox DisplayMemberPath="DisplayName"
+                          ItemsSource="{helpers:EnumToItemsSource {x:Type enums:ExtraTextPosition}}"
+                          SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=ExtraTextPosition}"
+                          SelectedValuePath="Value"
+                          VerticalAlignment="Top" />
+            </GroupBox>
         </Grid>
-        <views:PreviewUserControl Grid.Column="1" VerticalAlignment="Top" MinHeight="300" />
-        <StatusBar Grid.Row="1" DataContext="{Binding StatusBarViewModel}" Grid.ColumnSpan="2">
+        <ScrollViewer Grid.Column="1">
+            <StackPanel Orientation="Vertical">
+                <views:PreviewUserControl Grid.Column="1"
+                                          VerticalAlignment="Top"
+                                          MinHeight="300" />
+                <Button Content="Reset"
+                        Command="{Binding ResetResourcesCommand}" />
+                <Button Content="Go!"
+                        Command="{Binding CreateAdvancedDescriptionCommand}" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <StatusBar Grid.Row="1"
+                   DataContext="{Binding StatusBarViewModel}"
+                   Grid.ColumnSpan="2">
             <StatusBarItem>
-                <TextBlock Text="{Binding Status}" />
+                <TextBlock Text="{Binding Status, NotifyOnTargetUpdated=True}">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.25"
+                                                              Value="1" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:4"
+                                                              Value="1" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:5"
+                                                              Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
             </StatusBarItem>
         </StatusBar>
     </Grid>

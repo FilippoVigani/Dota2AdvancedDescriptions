@@ -1,4 +1,5 @@
-﻿using Dota2AdvancedDescriptions.Properties;
+﻿using Dota2AdvancedDescriptions.Helpers;
+using Dota2AdvancedDescriptions.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,6 +25,7 @@ namespace Dota2AdvancedDescriptions.Tools
 
         public void ParseResources()
         {
+            StatusBarHelper.Instance.SetStatus("Parsing resources from local file...");
             ParsedResources = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
             HeroNameResToName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var lines = File.ReadAllLines(_filePath);
@@ -87,6 +89,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         {
                             heroSpecificResourceContainer = new KeyValuePair<string, Dictionary<string, string>>(HeroNameResToName[heroKey], new Dictionary<string, string>());
                             ParsedResources.Add(heroSpecificResourceContainer.Key, heroSpecificResourceContainer.Value);
+                            StatusBarHelper.Instance.SetStatus("Parsed "+ heroSpecificResourceContainer.Key);
                         }
                     }
                     else
@@ -104,6 +107,7 @@ namespace Dota2AdvancedDescriptions.Tools
                     }
                 }
             }
+            StatusBarHelper.Instance.SetStatus("Resources parsing completed.");
         }
 
     }

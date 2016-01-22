@@ -1,4 +1,5 @@
-﻿using Dota2AdvancedDescriptions.Properties;
+﻿using Dota2AdvancedDescriptions.Helpers;
+using Dota2AdvancedDescriptions.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,6 +24,7 @@ namespace Dota2AdvancedDescriptions.Tools
 
         public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, Dictionary<string, string>> parsedResources)
         {
+            StatusBarHelper.Instance.SetStatus("Creating new resources file...");
             TmpFilePath = Path.GetTempFileName();
             StreamReader reader = new StreamReader(filePath);
             string input = reader.ReadToEnd();
@@ -79,6 +81,7 @@ namespace Dota2AdvancedDescriptions.Tools
 
         public void PublishResources(string filePath)
         {
+            StatusBarHelper.Instance.SetStatus("Replacing resources file...");
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("File doesn't exist at the path: " + filePath, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -93,20 +96,25 @@ namespace Dota2AdvancedDescriptions.Tools
             }
 
             CopyAsAdmin(TmpFilePath, filePath);
+            StatusBarHelper.Instance.SetStatus("Process completed! You're good to go!");
+
         }
 
         public void RevertResources(string filePath)
         {
+            StatusBarHelper.Instance.SetStatus("Reverting resources file...");
             //Restoring old file
             Directory.CreateDirectory(AppData);
             string bckFile = Path.Combine(AppData, Path.GetFileName(filePath));
 
             if (!File.Exists(bckFile))
             {
+                StatusBarHelper.Instance.SetStatus("Backup resources file not found.");
                 return;
             }
 
             CopyAsAdmin(bckFile, filePath);
+            StatusBarHelper.Instance.SetStatus("Resources reverted.");
         }
 
         private void CopyAsAdmin(string sourcePath, string destPath)

@@ -226,5 +226,17 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["ExtraTextFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dota_english.txt")]
+        public string SelectedResourcesFileName {
+            get {
+                return ((string)(this["SelectedResourcesFileName"]));
+            }
+            set {
+                this["SelectedResourcesFileName"] = value;
+            }
+        }
     }
 }

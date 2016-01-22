@@ -78,6 +78,7 @@
     <Compile Include="Helpers\Utility.cs" />
     <Compile Include="Tools\DotaResourcesEditor.cs" />
     <Compile Include="Tools\DotaResourcesParser.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.Commands.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Tools\DotaHtmlParser.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
