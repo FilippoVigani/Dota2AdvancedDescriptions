@@ -217,7 +217,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Cast point: {0}\\nCast backswing: {1}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cast point: {0}\\nCast backswing: {1}\\n")]
         public string ExtraTextFormat {
             get {
                 return ((string)(this["ExtraTextFormat"]));
@@ -236,6 +236,66 @@ namespace Dota2AdvancedDescriptions.Properties {
             }
             set {
                 this["SelectedResourcesFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cast point: {0}")]
+        public string CastPointTextFormat {
+            get {
+                return ((string)(this["CastPointTextFormat"]));
+            }
+            set {
+                this["CastPointTextFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cast backswing: {0}")]
+        public string CastBackswingTextFormat {
+            get {
+                return ((string)(this["CastBackswingTextFormat"]));
+            }
+            set {
+                this["CastBackswingTextFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RubickCastBackswingTextFormat {
+            get {
+                return ((string)(this["RubickCastBackswingTextFormat"]));
+            }
+            set {
+                this["RubickCastBackswingTextFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedColor {
+            get {
+                return ((string)(this["SelectedColor"]));
+            }
+            set {
+                this["SelectedColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCustomColor {
+            get {
+                return ((bool)(this["UseCustomColor"]));
+            }
+            set {
+                this["UseCustomColor"] = value;
             }
         }
     }

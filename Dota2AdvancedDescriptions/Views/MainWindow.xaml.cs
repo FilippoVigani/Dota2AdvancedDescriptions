@@ -1,5 +1,6 @@
 ﻿using Dota2AdvancedDescriptions.Properties;
 using Dota2AdvancedDescriptions.ViewModels;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Dota2AdvancedDescriptions
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private MainWindowViewModel _viewModel;
 

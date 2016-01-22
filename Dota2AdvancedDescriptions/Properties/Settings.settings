@@ -51,10 +51,25 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ExtraTextFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Cast point: {0}\nCast backswing: {1}</Value>
+      <Value Profile="(Default)">Cast point: {0}\nCast backswing: {1}\n</Value>
     </Setting>
     <Setting Name="SelectedResourcesFileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">dota_english.txt</Value>
+    </Setting>
+    <Setting Name="CastPointTextFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Cast point: {0}</Value>
+    </Setting>
+    <Setting Name="CastBackswingTextFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Cast backswing: {0}</Value>
+    </Setting>
+    <Setting Name="RubickCastBackswingTextFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UseCustomColor" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

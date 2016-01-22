@@ -18,60 +18,50 @@ namespace Dota2AdvancedDescriptions.ViewModels
 
         private void SettingsPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ExtraTextPosition")
+            if (e.PropertyName == "ExtraTextPosition" || e.PropertyName == "CastPointTextFormat" || e.PropertyName == "CastBackswingTextFormat" || e.PropertyName == "RubickCastBackswingTextFormat")
             {
-                OnPropertyChanged(() => TextAboveDescription);
-                OnPropertyChanged(() => TextBelowDescription);
-                OnPropertyChanged(() => TextAboveNotes);
-                OnPropertyChanged(() => TextBelowNotes);
+                OnPropertyChanged(() => PreviewText);
+                OnPropertyChanged(() => PreviewTextColor);
+            }
+            if (e.PropertyName == "SelectedColor" || e.PropertyName == "UseCustomColor")
+            {
+                OnPropertyChanged(() => PreviewTextColor);
             }
         }
 
-        public string TextAboveDescription
+        public string PreviewText
         {
             get
             {
-                if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveDescription)
-                {
-                    return Settings.Default.ExtraTextFormat;
-                }
-                return null;
+                string s1 = Settings.Default.CastPointTextFormat;
+                string s2 = Settings.Default.CastBackswingTextFormat;
+                string s3 = Settings.Default.RubickCastBackswingTextFormat;
+                try{ s1 = string.Format(s1, 0); } catch (Exception) { }
+                try { s2 = string.Format(s2, 1.33); } catch (Exception) { }
+                try { s3 = string.Format(s3, 1.07); } catch (Exception) { }
+
+                List<string> s = new List<string>{ s1,s2,s3 };
+                return string.Join(Environment.NewLine, s.Where(x => !String.IsNullOrEmpty(x)));
             }
         }
 
-        public string TextBelowDescription
+        public string PreviewTextColor
         {
             get
             {
-                if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.BelowDescription)
+                if (Settings.Default.UseCustomColor)
                 {
-                    return Settings.Default.ExtraTextFormat;
+                    return Settings.Default.SelectedColor;
                 }
-                return null;
-            }
-        }
-
-        public string TextAboveNotes
-        {
-            get
-            {
-                if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveNotes)
+                else
                 {
-                    return Settings.Default.ExtraTextFormat;
+                    if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.BelowNotes ||
+                        (ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveNotes)
+                    {
+                        return "#70ea72";
+                    }
+                    return "#c8c8c8";
                 }
-                return null;
-            }
-        }
-
-        public string TextBelowNotes
-        {
-            get
-            {
-                if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.BelowNotes)
-                {
-                    return Settings.Default.ExtraTextFormat;
-                }
-                return null;
             }
         }
     }

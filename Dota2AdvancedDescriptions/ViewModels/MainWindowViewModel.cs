@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,9 @@ namespace Dota2AdvancedDescriptions.ViewModels
 
         public MainWindowViewModel()
         {
+            _htmlParser = new DotaHtmlParser();
+            _resourcesParser = new DotaResourcesParser();
+            _resourcesEditor = new DotaResourcesEditor();
             StatusBarViewModel = new StatusBarViewModel();
             StatusBarHelper.Instance = new StatusBarHelper(StatusBarViewModel);
             PreviewViewModel = new PreviewViewModel();
@@ -69,10 +73,6 @@ namespace Dota2AdvancedDescriptions.ViewModels
 
         internal void Load()
         {
-            _htmlParser = new DotaHtmlParser();
-            _resourcesParser = new DotaResourcesParser(ResourcesFilePath);
-            _resourcesEditor = new DotaResourcesEditor();
-
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += delegate
             {
@@ -100,6 +100,5 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 return Directory.GetFiles(Settings.Default.ResourcesFolderPath).Select(f => Path.GetFileName(f)).Where(f => f.StartsWith("dota")).ToList();
             }
         }
-
     }
 }

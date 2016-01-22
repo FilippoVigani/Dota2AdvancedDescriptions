@@ -18,13 +18,13 @@ namespace Dota2AdvancedDescriptions.Tools
         private Dictionary<string, string> HeroNameResToName;
         private string _filePath;
 
-        public DotaResourcesParser(string filePath)
+        public DotaResourcesParser()
         {
-            _filePath = filePath;
         }
 
-        public void ParseResources()
+        public void ParseResources(string filePath)
         {
+            _filePath = filePath;
             StatusBarHelper.Instance.SetStatus("Parsing resources from local file...");
             ParsedResources = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
             HeroNameResToName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
