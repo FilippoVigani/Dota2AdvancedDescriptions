@@ -19,7 +19,7 @@ inb4 muh skill cap
 Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases) and copy the executable in a folder of your choice.
 
 - Requires Windows Vista or above (Windows 8, Windows 8.1, Windows 10...)
-- Requires .NET 4.5.2, which you can find at [Microsoft download page](https://www.microsoft.com/en-us/download/details.aspx?id=42642)
+- Requires Microsoft .NET Framework 4.5.2, which you can find [here](https://www.microsoft.com/en-us/download/details.aspx?id=42643) or [here](https://www.microsoft.com/en-us/download/details.aspx?id=42642). If you are running Windows 10, you most likely already have it installed.
 
 ## Usage
 
