@@ -148,7 +148,49 @@ namespace Dota2AdvancedDescriptions.Tools
                                     }
                                 }
                             }
-
+                        } else if (txtPos == ExtraTextPosition.AboveNotes)
+                        {
+                            bool noteInserted = false;
+                            string bufferText = extraText;
+                            string replacedText = "";
+                            for (int i = 0; !noteInserted; i++)
+                            {
+                                if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + i))) // new note
+                                {
+                                    string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, bufferText);
+                                    if (i > 0)
+                                    {
+                                        output = output.Insert(output.IndexOf(replacedText) + replacedText.Length + 1, Environment.NewLine + fullLine);
+                                        noteInserted = true;
+                                    }
+                                    else
+                                    {
+                                        int insertionIndex;
+                                        if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
+                                        {
+                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.LoreSuffix]) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
+                                        }
+                                        else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
+                                        {
+                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.DescriptionSuffix]) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
+                                        }
+                                        else
+                                        {
+                                            insertionIndex = output.IndexOf(heroResources[abilityKey]) + heroResources[abilityKey].Length;
+                                        }
+                                        insertionIndex = insertionIndex + 1;
+                                        output = output.Insert(insertionIndex, Environment.NewLine + "\t\t" + fullLine);
+                                        noteInserted = true;
+                                    }
+                                } else
+                                {
+                                    replacedText = bufferText;
+                                    bufferText = heroResources[abilityKey + Settings.Default.NoteSuffix + i];
+                                    int index = output.IndexOf(bufferText);
+                                    output = output.Remove(index, bufferText.Length);
+                                    output = output.Insert(index, replacedText);
+                                }
+                            }
                         }
                         //}
                         addedAbilitiesNames.Add(abilityName);

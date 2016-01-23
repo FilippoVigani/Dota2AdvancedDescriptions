@@ -67,6 +67,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 OnPropertyChanged(() => AvailableResourceFileNames);
                 ResetResourcesCommand.RaiseCanExecuteChanged();
                 CreateAdvancedDescriptionCommand.RaiseCanExecuteChanged();
+                LaunchDota.RaiseCanExecuteChanged();
             } else if (e.PropertyName == "SelectedResourcesFileName")
             {
                 OnPropertyChanged(() => ResourcesFilePath);

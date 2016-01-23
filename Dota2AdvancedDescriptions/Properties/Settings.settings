@@ -80,5 +80,14 @@
     <Setting Name="LoreSuffix" Type="System.String" Scope="User">
       <Value Profile="(Default)">_Lore</Value>
     </Setting>
+    <Setting Name="Dota2LaunchArguments" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-applaunch 570</Value>
+    </Setting>
+    <Setting Name="SteamFolderLevel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\..\..\..\..\</Value>
+    </Setting>
+    <Setting Name="SteamExe" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Steam.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

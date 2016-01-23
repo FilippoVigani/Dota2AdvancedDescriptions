@@ -184,6 +184,11 @@
                         Command="{Binding CreateAdvancedDescriptionCommand}"
                         controls:ButtonHelper.PreserveTextCase="True"
                         Style="{StaticResource AccentedSquareButtonStyle}"
+                        Margin="5 2.5 5 2.5" /> 
+                <Button Content="{x:Static properties:Resources.LaunchDota}"
+                        Command="{Binding LaunchDota}"
+                        controls:ButtonHelper.PreserveTextCase="True"
+                        Style="{StaticResource AccentedSquareButtonStyle}"
                         Margin="5 2.5 5 2.5" />
             </StackPanel>
 

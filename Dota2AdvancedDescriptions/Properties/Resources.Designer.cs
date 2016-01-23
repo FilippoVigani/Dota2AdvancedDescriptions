@@ -160,6 +160,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Launch Dota 2.
+        /// </summary>
+        public static string LaunchDota {
+            get {
+                return ResourceManager.GetString("LaunchDota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preview.
         /// </summary>
         public static string Preview {

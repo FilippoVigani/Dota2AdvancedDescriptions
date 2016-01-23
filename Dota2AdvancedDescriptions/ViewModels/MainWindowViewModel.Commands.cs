@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Diagnostics;
 
 namespace Dota2AdvancedDescriptions.ViewModels
 {
@@ -51,7 +52,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
             {
                 return this.openOnGitHub ?? (this.openOnGitHub = new DelegateCommand<object>((x) =>
                 {
-                    System.Diagnostics.Process.Start("https://github.com/VeegaP/Dota2AdvancedDescriptions");
+                    Process.Start("https://github.com/VeegaP/Dota2AdvancedDescriptions");
                 }));
             }
         }
@@ -64,8 +65,33 @@ namespace Dota2AdvancedDescriptions.ViewModels
             {
                 return this.openSteamProfile ?? (this.openSteamProfile = new DelegateCommand<object>((x) =>
                 {
-                    System.Diagnostics.Process.Start("https://steamcommunity.com/id/veegap/");
+                    Process.Start("https://steamcommunity.com/id/veegap/");
                 }));
+            }
+        }
+
+        private DelegateCommand<object> launchDota;
+
+        public DelegateCommand<object> LaunchDota
+        {
+            get
+            {
+                return this.launchDota ?? (this.launchDota = new DelegateCommand<object>((x) =>
+                {
+                    if (File.Exists(SteamExe))
+                    {
+                        Process.Start(SteamExe, Settings.Default.Dota2LaunchArguments);
+                    }
+                }, x => { return File.Exists(SteamExe); }));
+            }
+        }
+
+        private string SteamExe
+        {
+            get
+            {
+                string steamFolder = Path.GetFullPath(Path.Combine(Settings.Default.ResourcesFolderPath, Settings.Default.SteamFolderLevel));
+                return Path.Combine(steamFolder, Settings.Default.SteamExe);
             }
         }
 

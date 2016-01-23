@@ -150,6 +150,9 @@
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="LaunchDota" xml:space="preserve">
+    <value>Launch Dota 2</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>

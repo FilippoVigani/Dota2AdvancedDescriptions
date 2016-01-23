@@ -334,5 +334,41 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["LoreSuffix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-applaunch 570")]
+        public string Dota2LaunchArguments {
+            get {
+                return ((string)(this["Dota2LaunchArguments"]));
+            }
+            set {
+                this["Dota2LaunchArguments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\..\\..\\")]
+        public string SteamFolderLevel {
+            get {
+                return ((string)(this["SteamFolderLevel"]));
+            }
+            set {
+                this["SteamFolderLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Steam.exe")]
+        public string SteamExe {
+            get {
+                return ((string)(this["SteamExe"]));
+            }
+            set {
+                this["SteamExe"] = value;
+            }
+        }
     }
 }
