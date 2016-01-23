@@ -86,6 +86,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
             worker.RunWorkerCompleted += delegate
             {
                 CreateAdvancedDescriptionCommand.RaiseCanExecuteChanged();
+                RetryDownloadCommand.RaiseCanExecuteChanged();
             };
             worker.RunWorkerAsync();
         }

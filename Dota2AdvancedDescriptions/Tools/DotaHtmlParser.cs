@@ -20,52 +20,62 @@ namespace Dota2AdvancedDescriptions.Tools
 
         public Dictionary<string, Dictionary<string, string>> ParsedData;
         public bool ParseCompleted { get; private set; }
+        public bool ParseFailed { get; private set; }
+        private bool working = false;
 
         public void ParseAbilitiesCastPoints(string address, string xpath, int tableIndex)
         {
+            if (working) return;
+            working = true;
+            ParseFailed = false;
             try
             {
                 StatusBarHelper.Instance.SetStatus("Downloading data from gamepedia...");
                 ServicePointManager.DefaultConnectionLimit = int.MaxValue;
-                WebClient webClient = new WebClient();
-                webClient.Proxy = null;
-                string page = webClient.DownloadString(address);
+                using (WebClient webClient = new WebClient()){
+                    webClient.Proxy = null;
+                    string page = webClient.DownloadString(address);
 
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(page);
-
-                var nodes = doc.DocumentNode.SelectNodes(xpath);
-                if (nodes == null)
-                {
-                    StatusBarHelper.Instance.SetStatus("Error while getting data");
-                    var r = MessageBox.Show("Error while getting data from " + address + ".\nCheck your internet connection.\nThe application will be closed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    if (r == MessageBoxResult.OK)
+                    HtmlDocument doc = new HtmlDocument();
+                    doc.LoadHtml(page);
+                    var nodes = doc.DocumentNode.SelectNodes(xpath);
+                    if (nodes == null)
                     {
-                        Environment.Exit(-1);
+                        ParseFailed = true;
+                        StatusBarHelper.Instance.SetStatus("Error while getting data");
+                        var r = MessageBox.Show("Error while getting data from " + address + ".\nCheck your internet connection.\nThe application will be closed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        if (r == MessageBoxResult.OK)
+                        {
+                            Environment.Exit(-1);
+                        }
                     }
-                }
-                HtmlNode node = nodes.ElementAt(tableIndex);
+                    HtmlNode node = nodes.ElementAt(tableIndex);
 
-                ParsedData = new Dictionary<string, Dictionary<string, string>>();
+                    ParsedData = new Dictionary<string, Dictionary<string, string>>();
 
-                foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
-                {
-                    Dictionary<string, string> parsedRow = new Dictionary<string, string>();
-                    for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
+                    foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
                     {
-                        parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
+                        Dictionary<string, string> parsedRow = new Dictionary<string, string>();
+                        for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
+                        {
+                            parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
+                        }
+                        ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
+                        StatusBarHelper.Instance.SetStatus("Parsing data from html page: " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
                     }
-                    ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
-                    StatusBarHelper.Instance.SetStatus("Parsing data from html page: " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
+                    ParseCompleted = true;
+                    StatusBarHelper.Instance.SetStatus("Data parsing from gamepedia completed.");
                 }
-                ParseCompleted = true;
-                StatusBarHelper.Instance.SetStatus("Data parsing from gamepedia completed.");
             }
             catch (Exception e)
             {
                 StatusBarHelper.Instance.SetStatus("Error while getting data");
-                MessageBox.Show("Error while getting data from " + address + ":\n" + e.Message + "\nCheck your internet connection.\nThe application will be closed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ParseFailed = true;
+                var r = MessageBox.Show("Connection to the server " + address + "has failed:\n" + e.Message + "\nCheck the connection to the server or retry later.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } finally
+            {
+                working = false;
             }
-        }
+        } 
     }
 }

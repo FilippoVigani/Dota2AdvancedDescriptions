@@ -147,6 +147,9 @@
   <data name="FindMeOnGitHub" xml:space="preserve">
     <value>Find me on GitHub!</value>
   </data>
+  <data name="HideValuesIfEqualToZero" xml:space="preserve">
+    <value>Hide values if equal to zero</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="ResourcesFolderPathTooltip" xml:space="preserve">
     <value>Example: C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource</value>
+  </data>
+  <data name="RetryDownload" xml:space="preserve">
+    <value>Retry download</value>
   </data>
   <data name="RubickCastBackswingTextFormat" xml:space="preserve">
     <value>Rubick cast backswing text format</value>

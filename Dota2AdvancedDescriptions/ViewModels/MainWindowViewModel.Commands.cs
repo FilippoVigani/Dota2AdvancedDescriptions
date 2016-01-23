@@ -85,13 +85,26 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 }, x => { return File.Exists(SteamExe); }));
             }
         }
-
+        
         private string SteamExe
         {
             get
             {
                 string steamFolder = Path.GetFullPath(Path.Combine(Settings.Default.ResourcesFolderPath, Settings.Default.SteamFolderLevel));
                 return Path.Combine(steamFolder, Settings.Default.SteamExe);
+            }
+        }
+
+        private DelegateCommand<object> retryDownloadCommand;
+
+        public DelegateCommand<object> RetryDownloadCommand
+        {
+            get
+            {
+                return this.retryDownloadCommand ?? (this.retryDownloadCommand = new DelegateCommand<object>((x) =>
+                {
+                    Load();
+                }, x => { return _htmlParser.ParseFailed; }));
             }
         }
 

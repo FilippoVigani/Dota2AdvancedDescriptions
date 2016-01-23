@@ -370,5 +370,17 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["SteamExe"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideValuesIfEqualToZero {
+            get {
+                return ((bool)(this["HideValuesIfEqualToZero"]));
+            }
+            set {
+                this["HideValuesIfEqualToZero"] = value;
+            }
+        }
     }
 }

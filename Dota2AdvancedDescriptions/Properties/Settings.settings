@@ -89,5 +89,8 @@
     <Setting Name="SteamExe" Type="System.String" Scope="User">
       <Value Profile="(Default)">Steam.exe</Value>
     </Setting>
+    <Setting Name="HideValuesIfEqualToZero" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

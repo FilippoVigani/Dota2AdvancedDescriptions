@@ -18,7 +18,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
 
         private void SettingsPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ExtraTextPosition" || e.PropertyName == "CastPointTextFormat" || e.PropertyName == "CastBackswingTextFormat" || e.PropertyName == "RubickCastBackswingTextFormat")
+            if (e.PropertyName == "ExtraTextPosition" || e.PropertyName == "CastPointTextFormat" || e.PropertyName == "CastBackswingTextFormat" || e.PropertyName == "RubickCastBackswingTextFormat" || e.PropertyName == "HideValuesIfEqualToZero")
             {
                 OnPropertyChanged(() => PreviewText);
                 OnPropertyChanged(() => PreviewTextColor);
@@ -36,6 +36,11 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 string s1 = Settings.Default.CastPointTextFormat;
                 string s2 = Settings.Default.CastBackswingTextFormat;
                 string s3 = Settings.Default.RubickCastBackswingTextFormat;
+                if (Settings.Default.HideValuesIfEqualToZero)
+                {
+                    s1 = "";
+                } 
+               
                 try{ s1 = string.Format(s1, 0); } catch (Exception) { }
                 try { s2 = string.Format(s2, 1.33); } catch (Exception) { }
                 try { s3 = string.Format(s3, 1.07); } catch (Exception) { }

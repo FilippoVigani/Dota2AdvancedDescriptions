@@ -151,6 +151,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide values if equal to zero.
+        /// </summary>
+        public static string HideValuesIfEqualToZero {
+            get {
+                return ResourceManager.GetString("HideValuesIfEqualToZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
@@ -210,6 +219,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         public static string ResourcesFolderPathTooltip {
             get {
                 return ResourceManager.GetString("ResourcesFolderPathTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry download.
+        /// </summary>
+        public static string RetryDownload {
+            get {
+                return ResourceManager.GetString("RetryDownload", resourceCulture);
             }
         }
         

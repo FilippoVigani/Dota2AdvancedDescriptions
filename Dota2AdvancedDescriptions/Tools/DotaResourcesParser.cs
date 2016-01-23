@@ -50,6 +50,8 @@ namespace Dota2AdvancedDescriptions.Tools
                         {
                             var heroNameRes = names[0].ToString().Trim().Replace(Settings.Default.HeroNamePrefix, "").Replace("\"", "");
                             var heroName = names[1].ToString().Trim().Replace("\"", "");
+                            if (heroNameRes == "sand_king") //Sandking hard fix: volvo pls...
+                                heroNameRes = "sandking";
                             HeroNameResToName.Add(heroNameRes, heroName);
                         }
                     }
@@ -67,6 +69,8 @@ namespace Dota2AdvancedDescriptions.Tools
                         {
                             var heroNameRes = names[0].ToString().Trim().Replace(Settings.Default.HeroNamePrefix, "").Replace("\"", "");
                             var heroName = names[1].ToString().Trim().Replace("\"", "");
+                            if (heroNameRes == "sand_king") //Sandking hard fix: volvo pls...
+                                heroNameRes = "sandking";
                             HeroNameResToName.Add(heroNameRes, heroName);
                         }
                     }
