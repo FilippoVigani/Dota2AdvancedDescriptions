@@ -1,6 +1,8 @@
 <img src="https://cloud.githubusercontent.com/assets/8075379/12530591/5ee3a7fc-c1e3-11e5-8087-39fe492901b6.png" align="left" />
 #Dota2 Advanced Descriptions
 
+![Screenshot](https://cloud.githubusercontent.com/assets/8075379/12532680/d8d93b2c-c219-11e5-984a-98a9a785e9bd.png)
+
 An utility program for Dota 2 that allows you to add [cast points](http://dota2.gamepedia.com/Cast_animation#Cast_point) and [cast backswing](http://dota2.gamepedia.com/Cast_animation#Cast_backswing) to your abilities descriptions.
 
 Get more information: they will make a difference!
@@ -19,7 +21,7 @@ Get more information: they will make a difference!
 
 ## Installation
 
-Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases) and copy the executable in a folder of your choice.
+Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases/latest) and copy the executable in a folder of your choice.
 
 - Requires Windows Vista or above (Windows 7, Windows 8, Windows 8.1, Windows 10...)
 - Requires Microsoft .NET Framework 4.5.2, which you can find [here](https://www.microsoft.com/en-us/download/details.aspx?id=42643) or [here](https://www.microsoft.com/en-us/download/details.aspx?id=42642). If you are running Windows 10, you most likely already have it installed.
@@ -41,6 +43,7 @@ Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptio
 ## Credits
 
 Ideated & developed by Filippo Vigani aka [Veega](https://steamcommunity.com/id/veegap/)
+[List of releases](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases)
 
 ##Licence
 
