@@ -26,8 +26,9 @@ namespace Dota2AdvancedDescriptions.Tools
             try
             {
                 StatusBarHelper.Instance.SetStatus("Downloading data from gamepedia...");
-
+                ServicePointManager.DefaultConnectionLimit = int.MaxValue;
                 WebClient webClient = new WebClient();
+                webClient.Proxy = null;
                 string page = webClient.DownloadString(address);
 
                 HtmlDocument doc = new HtmlDocument();
@@ -55,7 +56,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
                     }
                     ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
-                    StatusBarHelper.Instance.SetStatus("Parsed " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
+                    StatusBarHelper.Instance.SetStatus("Parsing data from html page: " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
                 }
                 ParseCompleted = true;
                 StatusBarHelper.Instance.SetStatus("Data parsing from gamepedia completed.");

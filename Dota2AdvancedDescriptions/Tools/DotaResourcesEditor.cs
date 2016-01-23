@@ -89,7 +89,7 @@ namespace Dota2AdvancedDescriptions.Tools
                                 string desc = heroResources[abilityKey + "_Description"];
                                 if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveDescription)
                                 {
-                                    string extraText = Settings.Default.ExtraTextFormat.Replace("{0}", abilityData.Value["Cast point"]).Replace("{1}", abilityData.Value["Cast backswing"]);
+                                    string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3));
                                     output = output.Insert(output.IndexOf(desc), extraText);
                                 }
                             } else
@@ -99,19 +99,45 @@ namespace Dota2AdvancedDescriptions.Tools
                             }
                             
                         }
+                        StatusBarHelper.Instance.SetStatus("Creating new resources file: " + abilityData.Value.Values.ElementAt(0));
                     }
                     writer.Write(output);
                 }
                 writer.Close();
+                StatusBarHelper.Instance.SetStatus("Resource file creation completed.");
             }
+        }
+
+        private string GetExtraText(string castPoint, string castBackswing, string rubickCastBackswing)
+        {
+            string s1 = Settings.Default.CastPointTextFormat;
+            string s2 = Settings.Default.CastBackswingTextFormat;
+            string s3 = Settings.Default.RubickCastBackswingTextFormat;
+            try { s1 = string.Format(s1, castPoint); } catch (Exception) { }
+            try { s2 = string.Format(s2, castBackswing); } catch (Exception) { }
+            try { s3 = string.Format(s3, rubickCastBackswing); } catch (Exception) { }
+
+            List<string> s = new List<string> { s1, s2, s3 };
+            string separated = string.Join(@"\n", s.Where(x => !string.IsNullOrEmpty(x)));
+            if (Settings.Default.UseCustomColor)
+            {
+                separated = string.Format(Settings.Default.FontColorFormat, Utility.ArgbToRgb(Settings.Default.SelectedColor), separated);
+            }
+            if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveDescription)
+            {
+                return separated + @"\n";
+            } else if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.BelowDescription) { 
+                return @"\n" + separated;
+            }
+            return separated;
         }
 
         public void PublishResources(string filePath)
         {
             StatusBarHelper.Instance.SetStatus("Replacing resources file...");
-            if (!File.Exists(filePath))
+            if (!File.Exists(TmpFilePath))
             {
-                MessageBox.Show("File doesn't exist at the path: " + filePath, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("File doesn't exist at the path: " + TmpFilePath, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             //Backing up old file
@@ -121,7 +147,7 @@ namespace Dota2AdvancedDescriptions.Tools
                 File.Copy(filePath, GetBackupFile(filePath));
             }
 
-            CopyAsAdmin(TmpFilePath, filePath);
+            MoveAsAdmin(TmpFilePath, filePath);
             StatusBarHelper.Instance.SetStatus("Process completed! You're good to go!");
 
         }

@@ -217,18 +217,6 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Cast point: {0}\\nCast backswing: {1}\\n")]
-        public string ExtraTextFormat {
-            get {
-                return ((string)(this["ExtraTextFormat"]));
-            }
-            set {
-                this["ExtraTextFormat"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("dota_english.txt")]
         public string SelectedResourcesFileName {
             get {
@@ -277,7 +265,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF11C3E4")]
         public string SelectedColor {
             get {
                 return ((string)(this["SelectedColor"]));
@@ -296,6 +284,18 @@ namespace Dota2AdvancedDescriptions.Properties {
             }
             set {
                 this["UseCustomColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<font color=\\\"{0}\\\">{1}</font>")]
+        public string FontColorFormat {
+            get {
+                return ((string)(this["FontColorFormat"]));
+            }
+            set {
+                this["FontColorFormat"] = value;
             }
         }
     }

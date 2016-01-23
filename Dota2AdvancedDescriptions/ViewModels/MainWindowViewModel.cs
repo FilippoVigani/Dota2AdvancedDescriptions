@@ -65,9 +65,13 @@ namespace Dota2AdvancedDescriptions.ViewModels
             {
                 OnPropertyChanged(() => ResourcesFilePath);
                 OnPropertyChanged(() => AvailableResourceFileNames);
+                ResetResourcesCommand.RaiseCanExecuteChanged();
+                CreateAdvancedDescriptionCommand.RaiseCanExecuteChanged();
             } else if (e.PropertyName == "SelectedResourcesFileName")
             {
                 OnPropertyChanged(() => ResourcesFilePath);
+                ResetResourcesCommand.RaiseCanExecuteChanged();
+                CreateAdvancedDescriptionCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -89,6 +93,10 @@ namespace Dota2AdvancedDescriptions.ViewModels
         {
             get
             {
+                if (string.IsNullOrEmpty(Settings.Default.SelectedResourcesFileName))
+                {
+                    return Settings.Default.ResourcesFolderPath;
+                }
                 return Path.Combine(Settings.Default.ResourcesFolderPath, Settings.Default.SelectedResourcesFileName);
             }
         }

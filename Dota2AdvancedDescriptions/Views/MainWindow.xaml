@@ -42,16 +42,37 @@
                           Grid.Row="0">
                     <DockPanel>
                         <ComboBox DockPanel.Dock="Right"
-                                  MinWidth="130"
+                                  MinWidth="150"
                                   ItemsSource="{Binding AvailableResourceFileNames}"
                                   SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=SelectedResourcesFileName}"
                                   VirtualizingPanel.IsVirtualizing="True"
                                   controls:TextBoxHelper.Watermark="{x:Static properties:Resources.Language}"
                                   controls:TextBoxHelper.UseFloatingWatermark="True"
-                                  IsEditable="True" IsReadOnly="True"/>
-                        <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=ResourcesFolderPath}"
+                                  IsEditable="True"
+                                  IsReadOnly="True" />
+                        <Button Grid.Column="1"
+                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                HorizontalAlignment="Left"
+                                VerticalContentAlignment="Stretch"
+                                Margin="0 0 5 0"
+                                Command="{Binding BrowseFolderCommand}"
+                                ToolTip="{x:Static properties:Resources.ChangePath}">
+                            <Rectangle Stretch="Uniform"
+                                       Margin="2.5"
+                                       Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"
+                                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform"
+                                                 Visual="{DynamicResource appbar_magnify}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                        <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=ResourcesFolderPath, UpdateSourceTrigger=PropertyChanged}"
                                  controls:TextBoxHelper.Watermark="{x:Static properties:Resources.ResourcesFolderPath}"
-                                 controls:TextBoxHelper.UseFloatingWatermark="True" />
+                                 controls:TextBoxHelper.UseFloatingWatermark="True"
+                                 Margin="0 0 5 0"
+                                 ToolTip="{x:Static properties:Resources.ResourcesFolderPathTooltip}" />
+
                     </DockPanel>
                 </GroupBox>
 
@@ -59,7 +80,7 @@
                           Padding="2.5"
                           Grid.Row="1">
                     <StackPanel Orientation="Vertical">
-                        
+
                         <UniformGrid Columns="2">
                             <StackPanel>
                                 <ComboBox DisplayMemberPath="DisplayName"
@@ -75,15 +96,18 @@
                                 <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=CastPointTextFormat, UpdateSourceTrigger=PropertyChanged}"
                                          controls:TextBoxHelper.Watermark="{x:Static properties:Resources.CastPointTextFormat}"
                                          controls:TextBoxHelper.UseFloatingWatermark="True"
-                                         Margin="2.5 2.5 2.5 2.5" />
+                                         Margin="2.5 2.5 2.5 2.5"
+                                         ToolTip="{x:Static properties:Resources.CastPointTooltip}" />
                                 <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=CastBackswingTextFormat, UpdateSourceTrigger=PropertyChanged}"
                                          controls:TextBoxHelper.Watermark="{x:Static properties:Resources.CastBackswingTextFormat}"
                                          controls:TextBoxHelper.UseFloatingWatermark="True"
+                                         ToolTip="{x:Static properties:Resources.CastBackswingTooltip}"
                                          Margin="2.5 2.5 2.5 2.5" />
                                 <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=RubickCastBackswingTextFormat, UpdateSourceTrigger=PropertyChanged}"
                                          controls:TextBoxHelper.Watermark="{x:Static properties:Resources.RubickCastBackswingTextFormat}"
                                          controls:TextBoxHelper.UseFloatingWatermark="True"
-                                         Margin="2.5 2.5 2.5 2.5" />
+                                         Margin="2.5 2.5 2.5 2.5"
+                                         ToolTip="{x:Static properties:Resources.RubickCastBackswingTooltip}" />
                             </StackPanel>
                             <Expander Margin="2.5 2.5 2.5 2.5"
                                       Header="{x:Static properties:Resources.UseCustomColor}"
@@ -130,9 +154,15 @@
                     <views:PreviewUserControl MinHeight="300" />
                 </GroupBox>
                 <Button Content="{x:Static properties:Resources.ResetResources}"
-                        Command="{Binding ResetResourcesCommand}" />
+                        Command="{Binding ResetResourcesCommand}"
+                        Style="{StaticResource SquareButtonStyle}"
+                        controls:ButtonHelper.PreserveTextCase="True"
+                        Margin="5 2.5 5 2.5" />
                 <Button Content="{x:Static properties:Resources.PublishResources}"
-                        Command="{Binding CreateAdvancedDescriptionCommand}" />
+                        Command="{Binding CreateAdvancedDescriptionCommand}"
+                        controls:ButtonHelper.PreserveTextCase="True"
+                        Style="{StaticResource AccentedSquareButtonStyle}"
+                        Margin="5 2.5 5 2.5" />
             </StackPanel>
 
             <StatusBar Grid.Row="1"
@@ -147,9 +177,9 @@
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.25"
                                                                   Value="1" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:4"
+                                            <EasingDoubleKeyFrame KeyTime="0:0:6"
                                                                   Value="1" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:5"
+                                            <EasingDoubleKeyFrame KeyTime="0:0:8"
                                                                   Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>

@@ -123,8 +123,17 @@
   <data name="CastBackswingTextFormat" xml:space="preserve">
     <value>Cast backswing text format</value>
   </data>
+  <data name="CastBackswingTooltip" xml:space="preserve">
+    <value>Example: "Cast backswing: {0}" where {0} is the cast backswing duration.</value>
+  </data>
   <data name="CastPointTextFormat" xml:space="preserve">
     <value>Cast point text format</value>
+  </data>
+  <data name="CastPointTooltip" xml:space="preserve">
+    <value>Example: "Cast point: {0}" where {0} is the cast point duration.</value>
+  </data>
+  <data name="ChangePath" xml:space="preserve">
+    <value>Change path</value>
   </data>
   <data name="CreditsText" xml:space="preserve">
     <value>//Resources file edited with Dota 2 Advanced Descriptions by Filippo Vigani (Veega). https://github.com/VeegaP/Dota2AdvancedDescriptions</value>
@@ -147,8 +156,17 @@
   <data name="ResourcesFolderPath" xml:space="preserve">
     <value>Resources folder path</value>
   </data>
+  <data name="ResourcesFolderPathTooltip" xml:space="preserve">
+    <value>Example: C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource</value>
+  </data>
   <data name="RubickCastBackswingTextFormat" xml:space="preserve">
     <value>Rubick cast backswing text format</value>
+  </data>
+  <data name="RubickCastBackswingTooltip" xml:space="preserve">
+    <value>Example: "Rubick backswing: {0}" where {0} is the cast backswing on the spell stolen by Rubick.</value>
+  </data>
+  <data name="SelectResourcesFolder" xml:space="preserve">
+    <value>Select Dota 2 resources file. Example: "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource"</value>
   </data>
   <data name="Setup" xml:space="preserve">
     <value>Setup</value>

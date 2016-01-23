@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,41 +54,9 @@ namespace Dota2AdvancedDescriptions.Helpers
             return Encoding.ASCII;
         }
 
-        /// <summary>
-        /// Blocks until the file is not locked any more.
-        /// </summary>
-        /// <param name="fullPath"></param>
-        public static bool WaitForFile(string fullPath)
+        public static string ArgbToRgb(string color)
         {
-            int numTries = 0;
-            while (true)
-            {
-                ++numTries;
-                try
-                {
-                    // Attempt to open the file exclusively.
-                    using (FileStream fs = new FileStream(fullPath,
-                        FileMode.Open, FileAccess.ReadWrite,
-                        FileShare.None, 100))
-                    {
-                        fs.ReadByte();
-
-                        // If we got this far the file is ready
-                        break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (numTries > 10)
-                    {
-                        return false;
-                    }
-
-                    // Wait for the lock to be released
-                    System.Threading.Thread.Sleep(300);
-                }
-            }
-            return true;
+            return ColorTranslator.ToHtml((Color)new ColorConverter().ConvertFromString(color));
         }
     }
 }

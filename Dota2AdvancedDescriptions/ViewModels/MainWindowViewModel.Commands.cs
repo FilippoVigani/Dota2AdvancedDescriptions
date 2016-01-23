@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Dota2AdvancedDescriptions.ViewModels
 {
@@ -40,6 +42,35 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 }, x => { return !isPublishingResources && File.Exists(_resourcesEditor.GetBackupFile(ResourcesFilePath)); }));
             }
         }
+        private DelegateCommand<object> browseFolderCommand;
+
+        public DelegateCommand<object> BrowseFolderCommand
+        {
+            get
+            {
+                return this.browseFolderCommand ?? (this.browseFolderCommand = new DelegateCommand<object>((x) =>
+                {
+
+                    var dialog = new CommonOpenFileDialog()
+                    {
+                        DefaultDirectory = Settings.Default.ResourcesFolderPath,
+                        EnsurePathExists = true,
+                        IsFolderPicker = true,
+                        ShowPlacesList = true,
+                        Title = Resources.SelectResourcesFolder,
+                        Multiselect = false
+                    };
+                    dialog.IsFolderPicker = true;
+
+                    if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        Settings.Default.ResourcesFolderPath = dialog.FileName;
+
+                    }
+                }, x => { return CommonFileDialog.IsPlatformSupported; }));
+            }
+        }
+
 
         private bool isPublishingResources = false;
         private DelegateCommand<object> createAdvancedDescriptionCommand;
@@ -63,14 +94,15 @@ namespace Dota2AdvancedDescriptions.ViewModels
                         {
                             _resourcesParser.ParseResources(_resourcesEditor.GetBackupFile(ResourcesFilePath));
                             _resourcesEditor.PrepareResources(_resourcesEditor.GetBackupFile(ResourcesFilePath), _htmlParser.ParsedData, _resourcesParser.ParsedResources);
-                        } else
+                        }
+                        else
                         {
                             _resourcesParser.ParseResources(ResourcesFilePath);
                             _resourcesEditor.PrepareResources(ResourcesFilePath, _htmlParser.ParsedData, _resourcesParser.ParsedResources);
                         }
-                        
+
                         _resourcesEditor.PublishResources(ResourcesFilePath);
-                        
+
                     };
                     worker.RunWorkerCompleted += delegate
                     {
@@ -79,7 +111,8 @@ namespace Dota2AdvancedDescriptions.ViewModels
                         ResetResourcesCommand.RaiseCanExecuteChanged();
                     };
                     worker.RunWorkerAsync();
-                }, x => {
+                }, x =>
+                {
                     return File.Exists(ResourcesFilePath) && _htmlParser != null && _htmlParser.ParseCompleted && !isPublishingResources;
                 }));
             }

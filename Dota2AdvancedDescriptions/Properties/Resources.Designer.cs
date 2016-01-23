@@ -79,11 +79,38 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Example: &quot;Cast backswing: {0}&quot; where {0} is the cast backswing duration..
+        /// </summary>
+        public static string CastBackswingTooltip {
+            get {
+                return ResourceManager.GetString("CastBackswingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cast point text format.
         /// </summary>
         public static string CastPointTextFormat {
             get {
                 return ResourceManager.GetString("CastPointTextFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Example: &quot;Cast point: {0}&quot; where {0} is the cast point duration..
+        /// </summary>
+        public static string CastPointTooltip {
+            get {
+                return ResourceManager.GetString("CastPointTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change path.
+        /// </summary>
+        public static string ChangePath {
+            get {
+                return ResourceManager.GetString("ChangePath", resourceCulture);
             }
         }
         
@@ -151,11 +178,38 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Example: C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource.
+        /// </summary>
+        public static string ResourcesFolderPathTooltip {
+            get {
+                return ResourceManager.GetString("ResourcesFolderPathTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rubick cast backswing text format.
         /// </summary>
         public static string RubickCastBackswingTextFormat {
             get {
                 return ResourceManager.GetString("RubickCastBackswingTextFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Example: &quot;Rubick backswing: {0}&quot; where {0} is the cast backswing on the spell stolen by Rubick..
+        /// </summary>
+        public static string RubickCastBackswingTooltip {
+            get {
+                return ResourceManager.GetString("RubickCastBackswingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Dota 2 resources file. Example: &quot;C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota\resource&quot;.
+        /// </summary>
+        public static string SelectResourcesFolder {
+            get {
+                return ResourceManager.GetString("SelectResourcesFolder", resourceCulture);
             }
         }
         

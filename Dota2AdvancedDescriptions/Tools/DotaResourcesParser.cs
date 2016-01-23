@@ -89,7 +89,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         {
                             heroSpecificResourceContainer = new KeyValuePair<string, Dictionary<string, string>>(HeroNameResToName[heroKey], new Dictionary<string, string>());
                             ParsedResources.Add(heroSpecificResourceContainer.Key, heroSpecificResourceContainer.Value);
-                            StatusBarHelper.Instance.SetStatus("Parsed "+ heroSpecificResourceContainer.Key);
+                            StatusBarHelper.Instance.SetStatus("Parsing resources from local file: " + heroSpecificResourceContainer.Key);
                         }
                     }
                     else
