@@ -8,7 +8,7 @@ Get more information: they will make a difference!
 
 ##Features
  - Multi-language support
- - Fully string customizability
+ - Full string customizability
  - Dota 2 version-independant: the application gathers data from [Gamepedia](http://dota2.gamepedia.com/Cast_animation) and from your own dota 2 resources folder!
  - Color customizability
  - Text position customizability
