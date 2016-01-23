@@ -1,5 +1,6 @@
-# Dota2 Advanced Descriptions
-An utility program for Dota 2 that allows you to add cast points and cast backswing to your abilities' descriptions.
+<img src="https://cloud.githubusercontent.com/assets/8075379/12530591/5ee3a7fc-c1e3-11e5-8087-39fe492901b6.png" align="left" />
+#Dota2 Advanced Descriptions
+An utility program for Dota 2 that allows you to add [cast points](http://dota2.gamepedia.com/Cast_animation#Cast_point) and [cast backswing](http://dota2.gamepedia.com/Cast_animation#Cast_backswing) to your abilities' descriptions.
 
 Get more information: they will make a difference!
 >inb4 muh skill cap
