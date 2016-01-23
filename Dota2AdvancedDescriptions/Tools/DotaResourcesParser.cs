@@ -26,6 +26,11 @@ namespace Dota2AdvancedDescriptions.Tools
         {
             _filePath = filePath;
             StatusBarHelper.Instance.SetStatus("Parsing resources from local file...");
+            if (!File.Exists(_filePath))
+            {
+                MessageBox.Show("Resources file not found at: " + filePath, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             ParsedResources = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
             HeroNameResToName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var lines = File.ReadAllLines(_filePath);
