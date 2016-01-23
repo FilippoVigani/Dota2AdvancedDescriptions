@@ -69,7 +69,7 @@ namespace Dota2AdvancedDescriptions.Tools
                             modifier = abilityName.Substring(0, abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator)).Trim();
                             abilityName = abilityName.Substring(abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
                         }
-                        if (string.IsNullOrEmpty(modifier) && addedAbilitiesNames.Contains(abilityName)) continue; //Prevent adding duplicates
+                        
                         var heroResources = parsedResources.FirstOrDefault(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
                         if (heroResources == null) continue;
                         var abilityKeys = heroResources.Where(res => abilityName.Equals(res.Value, StringComparison.OrdinalIgnoreCase));
@@ -84,11 +84,25 @@ namespace Dota2AdvancedDescriptions.Tools
                         if (abilityKeys.Count() == 0)
                         {
                             Console.WriteLine("Resource not found: " + abilityData.Key);
-                            continue;
+                            if (abilityName.IndexOf("(") >= 0)
+                            {
+                                abilityName = abilityName.Substring(0, abilityName.IndexOf("(")).Trim();
+                                heroResources = parsedResources.FirstOrDefault(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
+                                if (heroResources == null) continue;
+                                abilityKeys = heroResources.Where(res => abilityName.Equals(res.Value, StringComparison.OrdinalIgnoreCase));
+                                unlocalizedKeys = abilityKeys.Select(a => a.Key.Replace(Settings.Default.ResourcesEnglishModifier, ""));
+                                abilityKeys = heroResources.Where(res => unlocalizedKeys.Contains(res.Key));
+                            }
+                            if (abilityKeys.Count() == 0)
+                            {
+                                continue;
+                            }
                         }
+                        int abInsertCount = addedAbilitiesNames.Where(a => a == abilityName).Count();
+                        if (string.IsNullOrEmpty(modifier) && abInsertCount >= abilityKeys.Count()) continue; //Prevent adding duplicates
                         //Perform editing
                         int abCount = abilityKeys.Count();
-                        var abilityKey = !string.IsNullOrEmpty(modifier) && abilityKeys.Count() > 1 ? abilityKeys.ElementAt(1).Key : abilityKeys.ElementAt(0).Key;
+                        var abilityKey = !string.IsNullOrEmpty(modifier) && abilityKeys.Count() > 1 ? abilityKeys.ElementAt(1).Key :  abilityKeys.ElementAt(abInsertCount < abilityKeys.Count() ? abInsertCount: 0).Key ;
                         //foreach (var abilityKey in abilityKeys.Select(a => a.Key))
                         //{
                         var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
@@ -101,11 +115,13 @@ namespace Dota2AdvancedDescriptions.Tools
 
                                 if (txtPos == ExtraTextPosition.AboveDescription)
                                 {
-                                    output = output.Insert(output.IndexOf(desc), extraText);
+                                    output = output.Insert(output.GoodIndex(desc, abInsertCount), extraText);
+                                   // output = output.Insert(output.IndexOf(desc), extraText);
                                 }
                                 else
                                 {
-                                    output = output.Insert(output.IndexOf(desc) + desc.Length, extraText);
+                                    output = output.Insert(output.GoodIndex(desc, abInsertCount) + desc.Length, extraText);
+                                    //output = output.Insert(output.IndexOf(desc) + desc.Length, extraText);
                                 }
                             }
                             else
@@ -124,7 +140,7 @@ namespace Dota2AdvancedDescriptions.Tools
                                     string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, extraText);
                                     if (i > 0)
                                     {
-                                        output = output.Insert(output.IndexOf(heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)]) + heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)].Length, @"\n" + extraText);
+                                        output = output.Insert(output.GoodIndex(heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)], abInsertCount) + heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)].Length, @"\n" + extraText);
                                         noteInserted = true;
                                     }
                                     else
@@ -132,15 +148,15 @@ namespace Dota2AdvancedDescriptions.Tools
                                         int insertionIndex;
                                         if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
                                         {
-                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.LoreSuffix]) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
+                                            insertionIndex = output.GoodIndex(heroResources[abilityKey + Settings.Default.LoreSuffix], 0) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
                                         }
                                         else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
                                         {
-                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.DescriptionSuffix]) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
+                                            insertionIndex = output.GoodIndex(heroResources[abilityKey + Settings.Default.DescriptionSuffix], 0) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
                                         }
                                         else
                                         {
-                                            insertionIndex = output.IndexOf(heroResources[abilityKey]) + heroResources[abilityKey].Length;
+                                            insertionIndex = output.GoodIndex(heroResources[abilityKey], 0) + heroResources[abilityKey].Length;
                                         }
                                         insertionIndex = insertionIndex + 1;
                                         output = output.Insert(insertionIndex, Environment.NewLine + "\t\t" + fullLine);
@@ -160,7 +176,7 @@ namespace Dota2AdvancedDescriptions.Tools
                                     string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, bufferText);
                                     if (i > 0)
                                     {
-                                        output = output.Insert(output.IndexOf(replacedText) + replacedText.Length + 1, Environment.NewLine + fullLine);
+                                        output = output.Insert(output.GoodIndex(replacedText, abInsertCount) + replacedText.Length + 1, Environment.NewLine + fullLine);
                                         noteInserted = true;
                                     }
                                     else
@@ -168,15 +184,15 @@ namespace Dota2AdvancedDescriptions.Tools
                                         int insertionIndex;
                                         if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
                                         {
-                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.LoreSuffix]) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
+                                            insertionIndex = output.GoodIndex(heroResources[abilityKey + Settings.Default.LoreSuffix], 0) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
                                         }
                                         else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
                                         {
-                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.DescriptionSuffix]) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
+                                            insertionIndex = output.GoodIndex(heroResources[abilityKey + Settings.Default.DescriptionSuffix], 0) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
                                         }
                                         else
                                         {
-                                            insertionIndex = output.IndexOf(heroResources[abilityKey]) + heroResources[abilityKey].Length;
+                                            insertionIndex = output.GoodIndex(heroResources[abilityKey], 0) + heroResources[abilityKey].Length;
                                         }
                                         insertionIndex = insertionIndex + 1;
                                         output = output.Insert(insertionIndex, Environment.NewLine + "\t\t" + fullLine);
@@ -186,7 +202,7 @@ namespace Dota2AdvancedDescriptions.Tools
                                 {
                                     replacedText = bufferText;
                                     bufferText = heroResources[abilityKey + Settings.Default.NoteSuffix + i];
-                                    int index = output.IndexOf(bufferText);
+                                    int index = output.GoodIndex(bufferText, 0);
                                     output = output.Remove(index, bufferText.Length);
                                     output = output.Insert(index, replacedText);
                                 }
