@@ -25,12 +25,12 @@ Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptio
 
 **Note:** When a new Dota 2 update is installed, the resources file may be overwritten. In that case, run the application again and follow the same instructions as listed below.
 - Launch the application (preferably as administrator).
-- If launched for the first time click "More Info" on Windows SmartScreen:
+- If launched for the first time click "More info" on Windows SmartScreen:
 ![SmartScreen](https://cloud.githubusercontent.com/assets/8075379/12527639/6dda6c46-c17f-11e5-8e8c-7fbd0ab29990.png)
-- then click on "Run Anyway"
+- then click on "Run anyway"
 ![SmartScreen Expanded](https://cloud.githubusercontent.com/assets/8075379/12527640/6df875b0-c17f-11e5-9856-1ff005c6f76d.png)
 - and wait for the data to be downloaded.
-- Set the resources folder (if the default isn't correct) and select the file language.
+- Set the resources folder (if the default isn't correct) and select the language file.
 - Customize all your settings.
 - Press the button Go! to edit all the abilities descriptions!
 
