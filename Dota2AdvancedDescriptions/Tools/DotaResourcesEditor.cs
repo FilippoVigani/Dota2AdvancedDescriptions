@@ -56,6 +56,8 @@ namespace Dota2AdvancedDescriptions.Tools
                         }
                     }
 
+                    List<string> addedAbilitiesNames = new List<string>();
+
                     foreach (var abilityData in data)
                     {
                         string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
@@ -64,9 +66,10 @@ namespace Dota2AdvancedDescriptions.Tools
                         //Fix for spells such as brewmaster with double separator
                         if (abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) >= 0)
                         {
-                            modifier = abilityName.Substring(0, abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
+                            modifier = abilityName.Substring(0, abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator)).Trim();
                             abilityName = abilityName.Substring(abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
                         }
+                        if (string.IsNullOrEmpty(modifier) && addedAbilitiesNames.Contains(abilityName)) continue; //Prevent adding duplicates
                         var heroResources = parsedResources.FirstOrDefault(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
                         if (heroResources == null) continue;
                         var abilityKeys = heroResources.Where(res => abilityName.Equals(res.Value, StringComparison.OrdinalIgnoreCase));
@@ -85,65 +88,70 @@ namespace Dota2AdvancedDescriptions.Tools
                         }
                         //Perform editing
                         int abCount = abilityKeys.Count();
-                        foreach (var abilityKey in abilityKeys.Select(a => a.Key))
+                        var abilityKey = !string.IsNullOrEmpty(modifier) && abilityKeys.Count() > 1 ? abilityKeys.ElementAt(1).Key : abilityKeys.ElementAt(0).Key;
+                        //foreach (var abilityKey in abilityKeys.Select(a => a.Key))
+                        //{
+                        var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
+                        string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3));
+                        if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
                         {
-                            var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
-                            string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3));
-                            if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
+                            if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
                             {
-                                if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
-                                {
-                                    string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
+                                string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
 
-                                    if (txtPos == ExtraTextPosition.AboveDescription)
-                                    {
-                                        output = output.Insert(output.IndexOf(desc), extraText);
-                                    }
-                                    else
-                                    {
-                                        output = output.Insert(output.IndexOf(desc) + desc.Length, extraText);
-                                    }
+                                if (txtPos == ExtraTextPosition.AboveDescription)
+                                {
+                                    output = output.Insert(output.IndexOf(desc), extraText);
                                 }
                                 else
                                 {
-                                    //Some resources are missing on foreign languages
-                                    Console.WriteLine("Missing resource: " + abilityKey + Settings.Default.DescriptionSuffix);
+                                    output = output.Insert(output.IndexOf(desc) + desc.Length, extraText);
                                 }
                             }
-                            else if (txtPos == ExtraTextPosition.BelowNotes)
+                            else
                             {
-                                bool noteInserted = false;
-                                for (int i = 0; !noteInserted; i++)
-                                {
-                                    if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + i)))
-                                    {
-                                        string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, extraText);
-                                        if (i > 0)
-                                        {
-                                            output = output.Insert(output.IndexOf(heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)]) + heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)].Length, @"\n" + extraText);
-                                            noteInserted = true;
-                                        } else
-                                        {
-                                            int insertionIndex;
-                                            if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
-                                            {
-                                                insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.LoreSuffix]) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
-                                            } else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
-                                            {
-                                                insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.DescriptionSuffix]) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
-                                            } else
-                                            {
-                                                insertionIndex = output.IndexOf(heroResources[abilityKey]) + heroResources[abilityKey].Length;
-                                            }
-                                            insertionIndex = insertionIndex + 1;
-                                            output = output.Insert(insertionIndex, Environment.NewLine + "\t\t"+ fullLine);
-                                            noteInserted = true;
-                                        }
-                                    }
-                                }
-
+                                //Some resources are missing on foreign languages
+                                Console.WriteLine("Missing resource: " + abilityKey + Settings.Default.DescriptionSuffix);
                             }
                         }
+                        else if (txtPos == ExtraTextPosition.BelowNotes)
+                        {
+                            bool noteInserted = false;
+                            for (int i = 0; !noteInserted; i++)
+                            {
+                                if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + i)))
+                                {
+                                    string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, extraText);
+                                    if (i > 0)
+                                    {
+                                        output = output.Insert(output.IndexOf(heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)]) + heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)].Length, @"\n" + extraText);
+                                        noteInserted = true;
+                                    }
+                                    else
+                                    {
+                                        int insertionIndex;
+                                        if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
+                                        {
+                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.LoreSuffix]) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
+                                        }
+                                        else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
+                                        {
+                                            insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.DescriptionSuffix]) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
+                                        }
+                                        else
+                                        {
+                                            insertionIndex = output.IndexOf(heroResources[abilityKey]) + heroResources[abilityKey].Length;
+                                        }
+                                        insertionIndex = insertionIndex + 1;
+                                        output = output.Insert(insertionIndex, Environment.NewLine + "\t\t" + fullLine);
+                                        noteInserted = true;
+                                    }
+                                }
+                            }
+
+                        }
+                        //}
+                        addedAbilitiesNames.Add(abilityName);
                         StatusBarHelper.Instance.SetStatus("Creating new resources file: " + abilityData.Value.Values.ElementAt(0));
                     }
                     writer.Write(output);
