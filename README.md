@@ -21,7 +21,7 @@ Get more information: they will make a difference!
 
 ## Installation
 
-Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases/latest) and copy the executable in a folder of your choice.
+Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases/latest) (Dota2AdvancedDescriptions.exe) and copy the executable in a folder of your choice.
 
 - Requires Windows Vista or above (Windows 7, Windows 8, Windows 8.1, Windows 10...)
 - Requires Microsoft .NET Framework 4.5.2, which you can find [here](https://www.microsoft.com/en-us/download/details.aspx?id=42643) or [here](https://www.microsoft.com/en-us/download/details.aspx?id=42642). If you are running Windows 10, you most likely already have it installed.
