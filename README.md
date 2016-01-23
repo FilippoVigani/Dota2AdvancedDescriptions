@@ -8,13 +8,14 @@ Get more information: they will make a difference!
 
 ##Features
  - Multi-language support
- - Fully string customizability
+ - Full string customizability
  - Dota 2 version-independant: the application gathers data from [Gamepedia](http://dota2.gamepedia.com/Cast_animation) and from your own dota 2 resources folder!
  - Color customizability
  - Text position customizability
  - Possibility to revert any changes made at any time
  - See a live preview as you make changes to know how it will look like in-game!
  - Preferences will be saved in case you want to re-create the same descriptions!
+ - More to come! Feel free to leave suggestions as to what this application should do for you!
 
 ## Installation
 
@@ -39,7 +40,7 @@ Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptio
 
 ## Credits
 
-Developed by Filippo Vigani aka [Veega](https://steamcommunity.com/id/veegap/)
+Ideated & developed by Filippo Vigani aka [Veega](https://steamcommunity.com/id/veegap/)
 
 ##Licence
 
