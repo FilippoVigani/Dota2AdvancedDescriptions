@@ -15,6 +15,7 @@ Get more information: they will make a difference!
  - Possibility to revert any changes made at any time
  - See a live preview as you make changes to know how it will look like in-game!
  - Preferences will be saved in case you want to re-create the same descriptions!
+ - More to come! Feel free to leave suggestions as to what this application should do for you!
 
 ## Installation
 
