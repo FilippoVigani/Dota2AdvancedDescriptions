@@ -2,8 +2,7 @@
 An utility program for Dota 2 that allows you to add cast points and cast backswing to your abilities' descriptions.
 
 Get more information: they will make a difference!
-
-inb4 muh skill cap
+>inb4 muh skill cap
 
 ##Features
  - Multi-language support
@@ -13,6 +12,7 @@ inb4 muh skill cap
  - Text position customizability
  - Possibility to revert any changes made at any time
  - See a live preview as you make changes to know how it will look like in-game!
+ - Preferences will be saved in case you want to re-create the same descriptions!
 
 ## Installation
 
@@ -23,6 +23,7 @@ Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptio
 
 ## Usage
 
+**Note:** When a new Dota 2 update is installed, the resources file may be overwritten. In that case, run the application again and follow the same instructions as listed below.
 - Launch the application (preferably as administrator).
 - If launched for the first time click "More Info" on Windows SmartScreen:
 ![SmartScreen](https://cloud.githubusercontent.com/assets/8075379/12527639/6dda6c46-c17f-11e5-8e8c-7fbd0ab29990.png)
