@@ -19,7 +19,29 @@
                       Width="1080"
                       Padding="2.5"
                       BorderBrush="{DynamicResource AccentColorBrush}"
-                      BorderThickness="1">
+                      BorderThickness="1"
+                      Icon="..\AppIcon.ico"
+                      ShowIconOnTitleBar="False">
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding OpenOnGitHub}"
+                    ToolTip="{x:Static properties:Resources.FindMeOnGitHub}">
+                <Rectangle Width="22"
+                           Height="22"
+                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform"
+                                     Visual="{StaticResource appbar_github}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding OpenSteamProfile}" Content="{x:Static properties:Resources.CreditsShort}" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     <ScrollViewer  VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>

@@ -135,11 +135,17 @@
   <data name="ChangePath" xml:space="preserve">
     <value>Change path</value>
   </data>
+  <data name="CreditsShort" xml:space="preserve">
+    <value>Developed by Filippo Vigani</value>
+  </data>
   <data name="CreditsText" xml:space="preserve">
     <value>//Resources file edited with Dota 2 Advanced Descriptions by Filippo Vigani (Veega). https://github.com/VeegaP/Dota2AdvancedDescriptions</value>
   </data>
   <data name="ExtraTextPosition" xml:space="preserve">
     <value>Text position</value>
+  </data>
+  <data name="FindMeOnGitHub" xml:space="preserve">
+    <value>Find me on GitHub!</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>

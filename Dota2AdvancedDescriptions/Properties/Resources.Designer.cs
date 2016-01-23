@@ -115,6 +115,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Developed by Filippo Vigani.
+        /// </summary>
+        public static string CreditsShort {
+            get {
+                return ResourceManager.GetString("CreditsShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to //Resources file edited with Dota 2 Advanced Descriptions by Filippo Vigani (Veega). https://github.com/VeegaP/Dota2AdvancedDescriptions.
         /// </summary>
         public static string CreditsText {
@@ -129,6 +138,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         public static string ExtraTextPosition {
             get {
                 return ResourceManager.GetString("ExtraTextPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find me on GitHub!.
+        /// </summary>
+        public static string FindMeOnGitHub {
+            get {
+                return ResourceManager.GetString("FindMeOnGitHub", resourceCulture);
             }
         }
         

@@ -42,6 +42,33 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 }, x => { return !isPublishingResources && File.Exists(_resourcesEditor.GetBackupFile(ResourcesFilePath)); }));
             }
         }
+
+        private DelegateCommand<object> openOnGitHub;
+
+        public DelegateCommand<object> OpenOnGitHub
+        {
+            get
+            {
+                return this.openOnGitHub ?? (this.openOnGitHub = new DelegateCommand<object>((x) =>
+                {
+                    System.Diagnostics.Process.Start("https://github.com/VeegaP/Dota2AdvancedDescriptions");
+                }));
+            }
+        }
+
+        private DelegateCommand<object> openSteamProfile;
+
+        public DelegateCommand<object> OpenSteamProfile
+        {
+            get
+            {
+                return this.openSteamProfile ?? (this.openSteamProfile = new DelegateCommand<object>((x) =>
+                {
+                    System.Diagnostics.Process.Start("https://steamcommunity.com/id/veegap/");
+                }));
+            }
+        }
+
         private DelegateCommand<object> browseFolderCommand;
 
         public DelegateCommand<object> BrowseFolderCommand
