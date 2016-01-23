@@ -71,5 +71,14 @@
     <Setting Name="FontColorFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;font color=\"{0}\"&gt;{1}&lt;/font&gt;</Value>
     </Setting>
+    <Setting Name="DescriptionSuffix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">_Description</Value>
+    </Setting>
+    <Setting Name="NoteSuffix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">_Note</Value>
+    </Setting>
+    <Setting Name="LoreSuffix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">_Lore</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

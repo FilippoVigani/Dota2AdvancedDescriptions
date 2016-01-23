@@ -55,14 +55,16 @@ namespace Dota2AdvancedDescriptions.Tools
                             }
                         }
                     }
-                   
+
                     foreach (var abilityData in data)
                     {
                         string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
                         string abilityName = abilityData.Key.Substring(abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
+                        string modifier = "";
                         //Fix for spells such as brewmaster with double separator
                         if (abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) >= 0)
                         {
+                            modifier = abilityName.Substring(0, abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
                             abilityName = abilityName.Substring(abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
                         }
                         var heroResources = parsedResources.FirstOrDefault(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
@@ -70,7 +72,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         var abilityKeys = heroResources.Where(res => abilityName.Equals(res.Value, StringComparison.OrdinalIgnoreCase));
                         var unlocalizedKeys = abilityKeys.Select(a => a.Key.Replace(Settings.Default.ResourcesEnglishModifier, ""));
                         abilityKeys = heroResources.Where(res => unlocalizedKeys.Contains(res.Key));
-                        
+
                         //Most of form-changing abilities have the same cast point, so it shouldn't be a problem
                         if (abilityKeys.Count() > 1)
                         {
@@ -82,22 +84,65 @@ namespace Dota2AdvancedDescriptions.Tools
                             continue;
                         }
                         //Perform editing
+                        int abCount = abilityKeys.Count();
                         foreach (var abilityKey in abilityKeys.Select(a => a.Key))
                         {
-                            if (heroResources.ContainsKey(abilityKey + "_Description"))
+                            var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
+                            string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3));
+                            if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
                             {
-                                string desc = heroResources[abilityKey + "_Description"];
-                                if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveDescription)
+                                if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
                                 {
-                                    string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3));
-                                    output = output.Insert(output.IndexOf(desc), extraText);
+                                    string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
+
+                                    if (txtPos == ExtraTextPosition.AboveDescription)
+                                    {
+                                        output = output.Insert(output.IndexOf(desc), extraText);
+                                    }
+                                    else
+                                    {
+                                        output = output.Insert(output.IndexOf(desc) + desc.Length, extraText);
+                                    }
                                 }
-                            } else
-                            {
-                                //Some resources are missing on foreign languages
-                                Console.WriteLine("Missing resource: " + abilityKey + "_Description");
+                                else
+                                {
+                                    //Some resources are missing on foreign languages
+                                    Console.WriteLine("Missing resource: " + abilityKey + Settings.Default.DescriptionSuffix);
+                                }
                             }
-                            
+                            else if (txtPos == ExtraTextPosition.BelowNotes)
+                            {
+                                bool noteInserted = false;
+                                for (int i = 0; !noteInserted; i++)
+                                {
+                                    if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + i)))
+                                    {
+                                        string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, extraText);
+                                        if (i > 0)
+                                        {
+                                            output = output.Insert(output.IndexOf(heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)]) + heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)].Length, @"\n" + extraText);
+                                            noteInserted = true;
+                                        } else
+                                        {
+                                            int insertionIndex;
+                                            if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
+                                            {
+                                                insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.LoreSuffix]) + heroResources[abilityKey + Settings.Default.LoreSuffix].Length;
+                                            } else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
+                                            {
+                                                insertionIndex = output.IndexOf(heroResources[abilityKey + Settings.Default.DescriptionSuffix]) + heroResources[abilityKey + Settings.Default.DescriptionSuffix].Length;
+                                            } else
+                                            {
+                                                insertionIndex = output.IndexOf(heroResources[abilityKey]) + heroResources[abilityKey].Length;
+                                            }
+                                            insertionIndex = insertionIndex + 1;
+                                            output = output.Insert(insertionIndex, Environment.NewLine + "\t\t"+ fullLine);
+                                            noteInserted = true;
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                         StatusBarHelper.Instance.SetStatus("Creating new resources file: " + abilityData.Value.Values.ElementAt(0));
                     }
@@ -123,10 +168,13 @@ namespace Dota2AdvancedDescriptions.Tools
             {
                 separated = string.Format(Settings.Default.FontColorFormat, Utility.ArgbToRgb(Settings.Default.SelectedColor), separated);
             }
-            if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.AboveDescription)
+            var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
+            if (txtPos == ExtraTextPosition.AboveDescription)
             {
                 return separated + @"\n";
-            } else if ((ExtraTextPosition)Settings.Default.ExtraTextPosition == ExtraTextPosition.BelowDescription) { 
+            }
+            else if (txtPos == ExtraTextPosition.BelowDescription)
+            {
                 return @"\n" + separated;
             }
             return separated;

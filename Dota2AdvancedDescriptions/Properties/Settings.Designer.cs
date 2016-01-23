@@ -298,5 +298,41 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["FontColorFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_Description")]
+        public string DescriptionSuffix {
+            get {
+                return ((string)(this["DescriptionSuffix"]));
+            }
+            set {
+                this["DescriptionSuffix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_Note")]
+        public string NoteSuffix {
+            get {
+                return ((string)(this["NoteSuffix"]));
+            }
+            set {
+                this["NoteSuffix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_Lore")]
+        public string LoreSuffix {
+            get {
+                return ((string)(this["LoreSuffix"]));
+            }
+            set {
+                this["LoreSuffix"] = value;
+            }
+        }
     }
 }
