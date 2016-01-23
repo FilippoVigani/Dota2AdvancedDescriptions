@@ -39,7 +39,7 @@ Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptio
 
 ## Credits
 
-Developed by Filippo Vigani aka Veega
+Developed by Filippo Vigani aka [Veega](https://steamcommunity.com/id/veegap/)
 
 ##Licence
 
