@@ -44,6 +44,8 @@ Download  [the latest release](https://github.com/VeegaP/Dota2AdvancedDescriptio
 
 Ideated & developed by Filippo Vigani aka [Veega](https://steamcommunity.com/id/veegap/)
 
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AFXMMJLFZJ4ZL&lc=US&item_name=Filippo%20Vigani&item_number=Software&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
+
 [List of releases](https://github.com/VeegaP/Dota2AdvancedDescriptions/releases)
 
 ##Licence
