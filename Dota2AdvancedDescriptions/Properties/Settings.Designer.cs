@@ -25,7 +25,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int CastPointsTableIndex {
             get {
                 return ((int)(this["CastPointsTableIndex"]));
@@ -85,7 +85,8 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://dota2.gamepedia.com/index.php?title=Cast_animation&printable=yes")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dota2.gamepedia.com/Cast_animation/Cast_points_and_backswings?printable=ye" +
+            "s")]
         public string CastPointsTableAddress {
             get {
                 return ((string)(this["CastPointsTableAddress"]));
@@ -380,6 +381,42 @@ namespace Dota2AdvancedDescriptions.Properties {
             }
             set {
                 this["HideValuesIfEqualToZero"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Camp")]
+        public string HtmlParsingIgnoreModifier {
+            get {
+                return ((string)(this["HtmlParsingIgnoreModifier"]));
+            }
+            set {
+                this["HtmlParsingIgnoreModifier"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("npc_dota_neutral_")]
+        public string NeutralNamePrefix {
+            get {
+                return ((string)(this["NeutralNamePrefix"]));
+            }
+            set {
+                this["NeutralNamePrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("npc_dota_")]
+        public string OtherNamePrefix {
+            get {
+                return ((string)(this["OtherNamePrefix"]));
+            }
+            set {
+                this["OtherNamePrefix"] = value;
             }
         }
     }

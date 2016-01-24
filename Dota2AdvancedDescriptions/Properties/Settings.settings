@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="CastPointsTableIndex" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="CastPointsTableXPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">//table</Value>
@@ -18,7 +18,7 @@
       <Value Profile="(Default)">th</Value>
     </Setting>
     <Setting Name="CastPointsTableAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://dota2.gamepedia.com/index.php?title=Cast_animation&amp;printable=yes</Value>
+      <Value Profile="(Default)">http://dota2.gamepedia.com/Cast_animation/Cast_points_and_backswings?printable=yes</Value>
     </Setting>
     <Setting Name="TableIdIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -91,6 +91,15 @@
     </Setting>
     <Setting Name="HideValuesIfEqualToZero" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="HtmlParsingIgnoreModifier" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Camp</Value>
+    </Setting>
+    <Setting Name="NeutralNamePrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">npc_dota_neutral_</Value>
+    </Setting>
+    <Setting Name="OtherNamePrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">npc_dota_</Value>
     </Setting>
   </Settings>
 </SettingsFile>

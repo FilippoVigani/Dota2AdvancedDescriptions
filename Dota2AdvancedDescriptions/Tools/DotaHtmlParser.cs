@@ -49,20 +49,28 @@ namespace Dota2AdvancedDescriptions.Tools
                             Environment.Exit(-1);
                         }
                     }
-                    HtmlNode node = nodes.ElementAt(tableIndex);
+                    //HtmlNode node = nodes.ElementAt(tableIndex);
 
                     ParsedData = new Dictionary<string, Dictionary<string, string>>();
 
-                    foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
+                    foreach(HtmlNode node in nodes)
                     {
-                        Dictionary<string, string> parsedRow = new Dictionary<string, string>();
-                        for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
+                        foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
                         {
-                            parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim());
+                            Dictionary<string, string> parsedRow = new Dictionary<string, string>();
+                            for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
+                            {
+                                string value = row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim();
+                                if (value.Contains(Settings.Default.HtmlParsingIgnoreModifier)) value = value.Substring(value.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
+                                parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), value);
+                            }
+                            //string header = parsedRow.ElementAt(Settings.Default.TableIdIndex).Value;
+                            //if (header.Contains(Settings.Default.HtmlParsingIgnoreModifier)) header = header.Substring(header.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
+                            ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
+                            StatusBarHelper.Instance.SetStatus("Parsing data from html page: " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
                         }
-                        ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
-                        StatusBarHelper.Instance.SetStatus("Parsing data from html page: " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
                     }
+                   
                     ParseCompleted = true;
                     StatusBarHelper.Instance.SetStatus("Data parsing from gamepedia completed.");
                 }

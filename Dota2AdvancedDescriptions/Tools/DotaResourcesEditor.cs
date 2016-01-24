@@ -57,7 +57,7 @@ namespace Dota2AdvancedDescriptions.Tools
 
                     foreach (var abilityData in data)
                     {
-                        string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) - 1).Trim();
+                        string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator)).Trim();
                         string abilityName = abilityData.Key.Substring(abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
                         string modifier = "";
                         //Fix for spells such as brewmaster with double separator
@@ -96,7 +96,7 @@ namespace Dota2AdvancedDescriptions.Tools
                             }
                         }
                         int abInsertCount = addedAbilitiesNames.Where(a => a == abilityName).Count();
-                        if (string.IsNullOrEmpty(modifier) && abInsertCount >= abilityKeys.Count()) continue; //Prevent adding duplicates
+                        if (string.IsNullOrEmpty(modifier) && abInsertCount >= abilityKeys.Count() && abilityData.Value.Count== 4) continue; //Prevent adding duplicates
                         //Perform editing
                         int abCount = abilityKeys.Count();
                         var abilityKey = !string.IsNullOrEmpty(modifier) && abilityKeys.Count() > 1 ? abilityKeys.ElementAt(1).Key : abilityKeys.ElementAt(abInsertCount < abilityKeys.Count() ? abInsertCount : 0).Key;
