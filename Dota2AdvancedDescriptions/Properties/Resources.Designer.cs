@@ -178,6 +178,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add every value to a new line.
+        /// </summary>
+        public static string NewLineAfterText {
+            get {
+                return ResourceManager.GetString("NewLineAfterText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preview.
         /// </summary>
         public static string Preview {

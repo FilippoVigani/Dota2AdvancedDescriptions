@@ -156,6 +156,9 @@
   <data name="LaunchDota" xml:space="preserve">
     <value>Launch Dota 2</value>
   </data>
+  <data name="NewLineAfterText" xml:space="preserve">
+    <value>Add every value to a new line</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>

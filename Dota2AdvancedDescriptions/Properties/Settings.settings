@@ -101,5 +101,8 @@
     <Setting Name="OtherNamePrefix" Type="System.String" Scope="User">
       <Value Profile="(Default)">npc_dota_</Value>
     </Setting>
+    <Setting Name="NewLineAfterText" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -103,7 +103,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         //foreach (var abilityKey in abilityKeys.Select(a => a.Key))
                         //{
                         var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
-                        string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3));
+                        string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3), abilityKey == abilityKeys.ElementAt(0).Key ? modifier: "");
                         if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
                         {
                             if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
@@ -219,7 +219,7 @@ namespace Dota2AdvancedDescriptions.Tools
             }
         }
 
-        private string GetExtraText(string castPoint, string castBackswing, string rubickCastBackswing)
+        private string GetExtraText(string castPoint, string castBackswing, string rubickCastBackswing, string modifier)
         {
             string s1 = Settings.Default.CastPointTextFormat;
             string s2 = Settings.Default.CastBackswingTextFormat;
@@ -236,10 +236,10 @@ namespace Dota2AdvancedDescriptions.Tools
             }
 
             List<string> s = new List<string> { s1, s2, s3 };
-            string separated = string.Join(@"\n", s.Where(x => !string.IsNullOrEmpty(x)));
+            string separated = string.Join(Settings.Default.NewLineAfterText ? @"\n" : "", s.Where(x => !string.IsNullOrEmpty(x)));
             if (Settings.Default.UseCustomColor)
             {
-                separated = string.Format(Settings.Default.FontColorFormat, Utility.ArgbToRgb(Settings.Default.SelectedColor), separated);
+                separated = string.Format(Settings.Default.FontColorFormat, Utility.ArgbToRgb(Settings.Default.SelectedColor), ((string.IsNullOrEmpty(modifier) ? "" : (modifier + ": " + (Settings.Default.NewLineAfterText ? @"\n" : ""))) + separated));
             }
             var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
             if (txtPos == ExtraTextPosition.AboveDescription)

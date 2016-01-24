@@ -419,5 +419,17 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["OtherNamePrefix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NewLineAfterText {
+            get {
+                return ((bool)(this["NewLineAfterText"]));
+            }
+            set {
+                this["NewLineAfterText"] = value;
+            }
+        }
     }
 }
