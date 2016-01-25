@@ -38,12 +38,12 @@ namespace Dota2AdvancedDescriptions.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("//table")]
-        public string CastPointsTableXPath {
+        public string TableXPath {
             get {
-                return ((string)(this["CastPointsTableXPath"]));
+                return ((string)(this["TableXPath"]));
             }
             set {
-                this["CastPointsTableXPath"] = value;
+                this["TableXPath"] = value;
             }
         }
         
@@ -470,13 +470,73 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AddMissingCastRanges {
             get {
                 return ((bool)(this["AddMissingCastRanges"]));
             }
             set {
                 this["AddMissingCastRanges"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dota2.gamepedia.com/Abilities/Cast_ranges?printable=yes")]
+        public string CastRangesTableAddress {
+            get {
+                return ((string)(this["CastRangesTableAddress"]));
+            }
+            set {
+                this["CastRangesTableAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cast_range")]
+        public string CastRangeSuffixSkip {
+            get {
+                return ((string)(this["CastRangeSuffixSkip"]));
+            }
+            set {
+                this["CastRangeSuffixSkip"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CAST RANGE: {0}")]
+        public string CastRangeExtraStringFormat {
+            get {
+                return ((string)(this["CastRangeExtraStringFormat"]));
+            }
+            set {
+                this["CastRangeExtraStringFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#808080")]
+        public string CastRangeValueColor {
+            get {
+                return ((string)(this["CastRangeValueColor"]));
+            }
+            set {
+                this["CastRangeValueColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AddCastPointsAndBackswings {
+            get {
+                return ((bool)(this["AddCastPointsAndBackswings"]));
+            }
+            set {
+                this["AddCastPointsAndBackswings"] = value;
             }
         }
     }

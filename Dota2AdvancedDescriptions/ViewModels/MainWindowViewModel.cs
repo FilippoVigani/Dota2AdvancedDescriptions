@@ -84,7 +84,8 @@ namespace Dota2AdvancedDescriptions.ViewModels
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += delegate
             {
-                _htmlParser.ParseAbilitiesCastPoints(Settings.Default.CastPointsTableAddress, Settings.Default.CastPointsTableXPath, Settings.Default.CastPointsTableIndex);
+                _htmlParser.ParseData(Settings.Default.CastPointsTableAddress, Settings.Default.TableXPath);
+                _htmlParser.ParseData(Settings.Default.CastRangesTableAddress, Settings.Default.TableXPath);
             };
             worker.RunWorkerCompleted += delegate
             {

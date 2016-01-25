@@ -16,21 +16,24 @@ namespace Dota2AdvancedDescriptions.Tools
         public DotaHtmlParser()
         {
             ParseCompleted = false;
+            ParsedData = new Dictionary<string, Dictionary<string, string>>();
+            Headers = new List<string>();
         }
 
         public Dictionary<string, Dictionary<string, string>> ParsedData;
         public bool ParseCompleted { get; private set; }
         public bool ParseFailed { get; private set; }
+        public List<string> Headers { get; set; }
         private bool working = false;
 
-        public void ParseAbilitiesCastPoints(string address, string xpath, int tableIndex)
+        public void ParseData(string address, string xpath)
         {
             if (working) return;
             working = true;
             ParseFailed = false;
             try
             {
-                StatusBarHelper.Instance.SetStatus("Downloading data from gamepedia...");
+                StatusBarHelper.Instance.SetStatus(String.Format("Downloading data from {0}", address.Replace("http://",string.Empty)));
                 ServicePointManager.DefaultConnectionLimit = int.MaxValue;
                 using (WebClient webClient = new WebClient()){
                     webClient.Proxy = null;
@@ -49,28 +52,52 @@ namespace Dota2AdvancedDescriptions.Tools
                             Environment.Exit(-1);
                         }
                     }
-                    //HtmlNode node = nodes.ElementAt(tableIndex);
-
-                    ParsedData = new Dictionary<string, Dictionary<string, string>>();
 
                     foreach(HtmlNode node in nodes)
                     {
                         foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
                         {
                             Dictionary<string, string> parsedRow = new Dictionary<string, string>();
+                            bool isNeutral = false;
                             for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
                             {
                                 string value = row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim();
-                                if (value.Contains(Settings.Default.HtmlParsingIgnoreModifier)) value = value.Substring(value.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
-                                parsedRow.Add(node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim(), value);
+                                if (value.Contains(Settings.Default.HtmlParsingIgnoreModifier))
+                                {
+                                    value = value.Substring(value.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
+                                    isNeutral = true;
+                                }
+                                var header = node.Descendants(Settings.Default.Tr).ElementAt(0).Elements(Settings.Default.Th).ElementAt(i).InnerText.Trim().Replace("  ", " ");
+                                if (!Headers.Contains(header))
+                                {
+                                    Headers.Add(header);
+                                }
+                                parsedRow.Add(header, value);
                             }
+                            if (!Headers.Contains(Resources.Owner))
+                            {
+                                Headers.Add(Resources.Owner);
+                            }
+                            if (isNeutral) parsedRow.Add(Resources.Owner, Resources.Neutral); else parsedRow.Add(Resources.Owner, Resources.Hero);
+
                             //string header = parsedRow.ElementAt(Settings.Default.TableIdIndex).Value;
                             //if (header.Contains(Settings.Default.HtmlParsingIgnoreModifier)) header = header.Substring(header.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
-                            ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
+                            if (ParsedData.ContainsKey(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value))
+                            {
+                                foreach (var val in parsedRow)
+                                {
+                                    if (!ParsedData[parsedRow.ElementAt(Settings.Default.TableIdIndex).Value].ContainsKey(val.Key))
+                                    {
+                                        ParsedData[parsedRow.ElementAt(Settings.Default.TableIdIndex).Value].Add(val.Key, val.Value);
+                                    }
+                                }
+                            } else
+                            {
+                                ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
+                            }
                             StatusBarHelper.Instance.SetStatus("Parsing data from html page: " + parsedRow.ElementAt(Settings.Default.TableIdIndex).Value);
                         }
                     }
-                   
                     ParseCompleted = true;
                     StatusBarHelper.Instance.SetStatus("Data parsing from gamepedia completed.");
                 }
@@ -79,6 +106,8 @@ namespace Dota2AdvancedDescriptions.Tools
             {
                 StatusBarHelper.Instance.SetStatus("Error while getting data");
                 ParseFailed = true;
+                ParsedData = new Dictionary<string, Dictionary<string, string>>();
+                Headers = new List<string>();
                 var r = MessageBox.Show("Connection to the server " + address + "has failed:\n" + e.Message + "\nCheck the connection to the server or retry later.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally
             {

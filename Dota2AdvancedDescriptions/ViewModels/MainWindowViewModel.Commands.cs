@@ -173,12 +173,12 @@ namespace Dota2AdvancedDescriptions.ViewModels
                         if (File.ReadAllText(ResourcesFilePath).IndexOf(Resources.CreditsText) >= 0)
                         {
                             _resourcesParser.ParseResources(_resourcesEditor.GetBackupFile(ResourcesFilePath));
-                            _resourcesEditor.PrepareResources(_resourcesEditor.GetBackupFile(ResourcesFilePath), _htmlParser.ParsedData, _resourcesParser.ParsedResources);
+                            _resourcesEditor.PrepareResources(_resourcesEditor.GetBackupFile(ResourcesFilePath), _htmlParser.ParsedData, _resourcesParser.ParsedResources, _htmlParser.Headers);
                         }
                         else
                         {
                             _resourcesParser.ParseResources(ResourcesFilePath);
-                            _resourcesEditor.PrepareResources(ResourcesFilePath, _htmlParser.ParsedData, _resourcesParser.ParsedResources);
+                            _resourcesEditor.PrepareResources(ResourcesFilePath, _htmlParser.ParsedData, _resourcesParser.ParsedResources, _htmlParser.Headers);
                         }
 
                         _resourcesEditor.PublishResources(ResourcesFilePath);

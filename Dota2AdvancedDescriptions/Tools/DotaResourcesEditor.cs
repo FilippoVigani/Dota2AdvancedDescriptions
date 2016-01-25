@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -28,7 +29,7 @@ namespace Dota2AdvancedDescriptions.Tools
         {
         }
 
-        public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, Dictionary<string, string>> parsedResources)
+        public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, Dictionary<string, string>> parsedResources, List<string> headers)
         {
             StatusBarHelper.Instance.SetStatus("Creating new resources file...");
             //TmpFilePath = Path.Combine(Path.GetTempPath(), Path.GetFileName(filePath));
@@ -52,9 +53,7 @@ namespace Dota2AdvancedDescriptions.Tools
                             break;
                         }
                     }
-
                     List<string> addedAbilitiesNames = new List<string>();
-
                     foreach (var abilityData in data)
                     {
                         string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator)).Trim();
@@ -96,115 +95,159 @@ namespace Dota2AdvancedDescriptions.Tools
                             }
                         }
                         int abInsertCount = addedAbilitiesNames.Where(a => a == abilityName).Count();
-                        if (string.IsNullOrEmpty(modifier) && abInsertCount >= abilityKeys.Count() && abilityData.Value.Count== 4) continue; //Prevent adding duplicates
-                        //Perform editing
+                        if (string.IsNullOrEmpty(modifier) && abInsertCount >= abilityKeys.Count() && abilityData.Value[Resources.Owner] == Resources.Hero) continue; //Prevent adding duplicates
+                                                                                                                                                                      //Perform editing
                         int abCount = abilityKeys.Count();
                         var abilityKey = !string.IsNullOrEmpty(modifier) && abilityKeys.Count() > 1 ? abilityKeys.ElementAt(1).Key : abilityKeys.ElementAt(abInsertCount < abilityKeys.Count() ? abInsertCount : 0).Key;
-                        //foreach (var abilityKey in abilityKeys.Select(a => a.Key))
-                        //{
-                        var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
-                        string extraText = GetExtraText(abilityData.Value.Values.ElementAtOrDefault(1), abilityData.Value.Values.ElementAtOrDefault(2), abilityData.Value.Values.ElementAtOrDefault(3), abilityData.Value.Values.ElementAtOrDefault(4), abilityKey == abilityKeys.ElementAt(0).Key ? modifier: "");
-                        if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
-                        {
-                            if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
-                            {
-                                string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
 
-                                if (txtPos == ExtraTextPosition.AboveDescription)
+
+                        //CAST RANGE
+                        if (Settings.Default.AddMissingCastRanges)
+                        {
+                            string castRange = abilityData.Value.GetValueOrDefault(headers[6]);
+                            if (!string.IsNullOrEmpty(castRange) && !heroResources.Any(r => r.Key.StartsWith(abilityKey) && r.Key.Contains(Settings.Default.CastRangeSuffixSkip))) //Don't add if it already exists
+                            {
+                                KeyValuePair<string, string> appendixResource = new KeyValuePair<string, string>();
+                                foreach (var res in heroResources)
                                 {
-                                    int lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
-                                    lines[lineIndex] = lines[lineIndex].Insert(lines[lineIndex].IndexOf(desc), extraText);
+                                    if (res.Key != abilityKey && res.Key.StartsWith(abilityKey) && !res.Key.StartsWith(abilityKey + Settings.Default.LoreSuffix)
+                                        && !res.Key.StartsWith(abilityKey + Settings.Default.DescriptionSuffix)
+                                        && !res.Key.StartsWith(abilityKey + Settings.Default.NoteSuffix))
+                                    {
+                                        appendixResource = res;
+                                        break;
+                                    }
+                                }
+                                if (!string.IsNullOrEmpty(appendixResource.Key))
+                                {
+                                    int lineIndex = lines.FirstIndexMatch(l => l.Contains(appendixResource.Key));
+                                    if (lineIndex >= 0)
+                                    {
+                                        var matches = DotaResourcesParser.ParseKeyValues(lines[lineIndex]);
+                                        if (matches.Count > 1)
+                                        {
+                                            lines[lineIndex] = lines[lineIndex].Insert(lines[lineIndex].IndexOf(matches[1]) + (matches[1].StartsWith("%") ? 1 : 0),
+                                                String.Format(Settings.Default.CastRangeExtraStringFormat, String.Format(Settings.Default.FontColorFormat, Settings.Default.CastRangeValueColor, castRange) + @"\n"));
+                                        }
+                                    }
                                 }
                                 else
                                 {
-                                    int lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
-                                    lines[lineIndex] = lines[lineIndex].Insert(lines[lineIndex].IndexOf(desc) + desc.Length, extraText);
+                                    Debug.WriteLine("Couldn't attach cast range to " + abilityName); //Some spells just don't have the slot unfortunately ~8
                                 }
                             }
-                            else
-                            {
-                                //Some resources are missing on foreign languages
-                                Console.WriteLine("Missing resource: " + abilityKey + Settings.Default.DescriptionSuffix);
-                            }
                         }
+                        //foreach (var abilityKey in abilityKeys.Select(a => a.Key))
+                        //{
 
-                        else if (txtPos == ExtraTextPosition.BelowNotes)
+                        //CAST POINT AND BACKSWING
+                        if (Settings.Default.AddCastPointsAndBackswings)
                         {
-                            bool noteInserted = false;
-                            for (int i = 0; !noteInserted; i++)
+                            var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
+                            //string extraText = GetExtraText(abilityData.Value.Values.ElementAtOrDefault(1), abilityData.Value.Values.ElementAtOrDefault(2), abilityData.Value.Values.ElementAtOrDefault(3), abilityData.Value.Values.ElementAtOrDefault(4), abilityKey == abilityKeys.ElementAt(0).Key ? modifier: "");
+                            string extraText = GetExtraText(abilityData.Value.GetValueOrDefault(headers[1]), abilityData.Value.GetValueOrDefault(headers[2]), abilityData.Value.GetValueOrDefault(headers[3]), abilityData.Value.GetValueOrDefault(headers[5]), abilityKey == abilityKeys.ElementAt(0).Key ? modifier : "");
+                            if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
                             {
-                                if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + i)))
+                                if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
                                 {
-                                    string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, extraText);
-                                    if (i > 0)
+                                    string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
+
+                                    if (txtPos == ExtraTextPosition.AboveDescription)
                                     {
-                                        string note = heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)];
-                                        int lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.NoteSuffix + (i - 1)));
-                                        lines.Insert(lineIndex + 1, fullLine);
-                                        noteInserted = true;
+                                        int lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
+                                        lines[lineIndex] = lines[lineIndex].Insert(lines[lineIndex].IndexOf(desc), extraText);
                                     }
                                     else
                                     {
-                                        int lineIndex;
-                                        if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
-                                        {
-                                            string lore = heroResources[abilityKey + Settings.Default.LoreSuffix];
-                                            lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.LoreSuffix));
-                                        }
-                                        else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
-                                        {
-                                            string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
-                                            lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
-                                        }
-                                        else
-                                        {
-                                            string name = heroResources[abilityKey];
-                                            lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey));
-                                        }
-                                        lineIndex = lineIndex + 1;
-                                        lines.Insert(lineIndex, "\t\t" + fullLine);
-                                        noteInserted = true;
+                                        int lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
+                                        lines[lineIndex] = lines[lineIndex].Insert(lines[lineIndex].IndexOf(desc) + desc.Length, extraText);
                                     }
-                                }
-                            }
-                        }
-                        else if (txtPos == ExtraTextPosition.AboveNotes)
-                        {
-                            string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + 0, extraText);
-                            int lineIndex;
-                            if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + 0))) // new note
-                            {
-                                if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
-                                {
-                                    string lore = heroResources[abilityKey + Settings.Default.LoreSuffix];
-                                    lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.LoreSuffix));
-                                }
-                                else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
-                                {
-                                    string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
-                                    lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
                                 }
                                 else
                                 {
-                                    string name = heroResources[abilityKey];
-                                    lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey));
+                                    //Some resources are missing on foreign languages
+                                    Console.WriteLine("Missing resource: " + abilityKey + Settings.Default.DescriptionSuffix);
                                 }
-                                lineIndex = lineIndex + 1;
                             }
-                            else
+
+                            else if (txtPos == ExtraTextPosition.BelowNotes)
                             {
-                                lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.NoteSuffix + 0));
+                                bool noteInserted = false;
+                                for (int i = 0; !noteInserted; i++)
+                                {
+                                    if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + i)))
+                                    {
+                                        string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + i, extraText);
+                                        if (i > 0)
+                                        {
+                                            string note = heroResources[abilityKey + Settings.Default.NoteSuffix + (i - 1)];
+                                            int lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.NoteSuffix + (i - 1)));
+                                            lines.Insert(lineIndex + 1, fullLine);
+                                            noteInserted = true;
+                                        }
+                                        else
+                                        {
+                                            int lineIndex;
+                                            if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
+                                            {
+                                                string lore = heroResources[abilityKey + Settings.Default.LoreSuffix];
+                                                lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.LoreSuffix));
+                                            }
+                                            else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
+                                            {
+                                                string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
+                                                lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
+                                            }
+                                            else
+                                            {
+                                                string name = heroResources[abilityKey];
+                                                lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey));
+                                            }
+                                            lineIndex = lineIndex + 1;
+                                            lines.Insert(lineIndex, "\t\t" + fullLine);
+                                            noteInserted = true;
+                                        }
+                                    }
+                                }
                             }
-                            lines.Insert(lineIndex, "\t\t" + fullLine);
-                            lineIndex++;
-                            int k = 0;
-                            while (lines[lineIndex].Contains(abilityKey + Settings.Default.NoteSuffix))
+                            else if (txtPos == ExtraTextPosition.AboveNotes)
                             {
-                                lines[lineIndex] = lines[lineIndex].Replace(abilityKey + Settings.Default.NoteSuffix + k, abilityKey + Settings.Default.NoteSuffix + (++k));
+                                string fullLine = String.Format("\"{0}\"\t\"{1}\"", abilityKey + Settings.Default.NoteSuffix + 0, extraText);
+                                int lineIndex;
+                                if (!(heroResources.ContainsKey(abilityKey + Settings.Default.NoteSuffix + 0))) // new note
+                                {
+                                    if (heroResources.ContainsKey(abilityKey + Settings.Default.LoreSuffix))
+                                    {
+                                        string lore = heroResources[abilityKey + Settings.Default.LoreSuffix];
+                                        lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.LoreSuffix));
+                                    }
+                                    else if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
+                                    {
+                                        string desc = heroResources[abilityKey + Settings.Default.DescriptionSuffix];
+                                        lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.DescriptionSuffix));
+                                    }
+                                    else
+                                    {
+                                        string name = heroResources[abilityKey];
+                                        lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey));
+                                    }
+                                    lineIndex = lineIndex + 1;
+                                }
+                                else
+                                {
+                                    lineIndex = lines.FirstIndexMatch(l => l.Contains(abilityKey + Settings.Default.NoteSuffix + 0));
+                                }
+                                lines.Insert(lineIndex, "\t\t" + fullLine);
                                 lineIndex++;
+                                int k = 0;
+                                while (lines[lineIndex].Contains(abilityKey + Settings.Default.NoteSuffix))
+                                {
+                                    lines[lineIndex] = lines[lineIndex].Replace(abilityKey + Settings.Default.NoteSuffix + k, abilityKey + Settings.Default.NoteSuffix + (++k));
+                                    lineIndex++;
+                                }
                             }
+                            //} 
                         }
-                        //}
                         addedAbilitiesNames.Add(abilityName);
                         StatusBarHelper.Instance.SetStatus("Creating new resources file: " + abilityData.Value.Values.ElementAt(0));
                     }
@@ -231,7 +274,8 @@ namespace Dota2AdvancedDescriptions.Tools
             if (string.IsNullOrEmpty(doomCastBackswing)) //Restrict to neutrals
             {
                 s4 = null;
-            } else
+            }
+            else
             {
                 try { s4 = string.Format(s4, doomCastBackswing); } catch (Exception) { }
             }

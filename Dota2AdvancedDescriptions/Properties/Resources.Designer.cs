@@ -61,6 +61,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Cast Point and Backswing.
+        /// </summary>
+        public static string AddCastPointsAndBackswing {
+            get {
+                return ResourceManager.GetString("AddCastPointsAndBackswing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add missing cast ranges.
         /// </summary>
         public static string AddMissingCastRanges {
@@ -196,6 +205,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hero.
+        /// </summary>
+        public static string Hero {
+            get {
+                return ResourceManager.GetString("Hero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide values if equal to zero.
         /// </summary>
         public static string HideValuesIfEqualToZero {
@@ -223,11 +241,29 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Neutral.
+        /// </summary>
+        public static string Neutral {
+            get {
+                return ResourceManager.GetString("Neutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add every value to a new line.
         /// </summary>
         public static string NewLineAfterText {
             get {
                 return ResourceManager.GetString("NewLineAfterText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Owner.
+        /// </summary>
+        public static string Owner {
+            get {
+                return ResourceManager.GetString("Owner", resourceCulture);
             }
         }
         

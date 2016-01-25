@@ -21,6 +21,20 @@ namespace Dota2AdvancedDescriptions.Tools
         public DotaResourcesParser()
         {
         }
+        private static Regex ResourceRegex = new Regex("\"(.*?)\"", RegexOptions.IgnoreCase);
+        public static List<string> ParseKeyValues(string line)
+        {
+            var matches = new List<string>(ResourceRegex.Matches(line).Cast<object>().Select(s => s.ToString()));
+            if (matches.Count > 2)
+            {
+                string keyString = matches[0];
+                string matchWithQuotationMarks = line.Replace(keyString, "").Trim();
+                matches = new List<string>();
+                matches.Add(keyString);
+                matches.Add(matchWithQuotationMarks);
+            }
+            return matches.Select(s => s.Length >= 2 ? s.Substring(1, s.Length - 2) : s).ToList();
+        }
 
         public void ParseResources(string filePath)
         {
@@ -34,7 +48,7 @@ namespace Dota2AdvancedDescriptions.Tools
             ParsedResources = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
             UnitNameResToName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var lines = File.ReadAllLines(_filePath);
-            Regex regex = new Regex("\"(.*?)\"", RegexOptions.IgnoreCase);
+            
             KeyValuePair<string, Dictionary<string, string>> unitSpecificResourceContainer = new KeyValuePair<string, Dictionary<string, string>>();
             //Joining hero name with display name (different file)
             bool heroNamesCreatedFromDifferentFile = Path.Combine(Path.GetDirectoryName(_filePath), Settings.Default.DefaultResourcesFileName) != _filePath;
@@ -44,7 +58,7 @@ namespace Dota2AdvancedDescriptions.Tools
             {
                 if (line.Contains(Settings.Default.HeroNamePrefix) && !line.Contains(Settings.Default.ExcludeFromHeroesNames) || line.Contains(Settings.Default.NeutralNamePrefix))
                 {
-                    var names = new List<object>(regex.Matches(line).Cast<object>());
+                    var names = new List<object>(ResourceRegex.Matches(line).Cast<object>());
                     if (names.Count == 2)
                     {
                         var unitNameRes = names[0].ToString().Trim().Replace("\"", "");
@@ -57,16 +71,7 @@ namespace Dota2AdvancedDescriptions.Tools
             }
             foreach (var line in lines)
             {
-                var matches = new List<string>(regex.Matches(line).Cast<object>().Select(s => s.ToString()));
-                if (matches.Count > 2)
-                {
-                    string keyString = matches[0];
-                    string matchWithQuotationMarks = line.Replace(keyString, "").Trim();
-                    matches = new List<string>();
-                    matches.Add(keyString);
-                    matches.Add(matchWithQuotationMarks);
-                }
-                matches = matches.Select(s => s.Length >= 2 ? s.Substring(1, s.Length - 2) : s).ToList();
+                var matches = ParseKeyValues(line);
 
                 //Group by unit
                 if (line.IndexOf(Settings.Default.AbilityResourcePrefix, StringComparison.OrdinalIgnoreCase) >= 0)

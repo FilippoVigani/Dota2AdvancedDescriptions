@@ -39,5 +39,22 @@ namespace Dota2AdvancedDescriptions.Helpers
             }
             return -1;
         }
+
+        public static int LastIndexMatch<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> matchCondition)
+        {
+            for(int i = items.Count()-1; i >= 0; i--)
+            {
+                if (matchCondition.Invoke(items.ElementAt(i)))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public static V GetValueOrDefault<K, V>(this IDictionary<K, V> dic, K key)
+        {
+            return dic.ContainsKey(key) ? dic[key] : default(V);
+        }
     }
 }

@@ -22,6 +22,34 @@
                       BorderThickness="1"
                       Icon="..\AppIcon.ico"
                       ShowIconOnTitleBar="False">
+    <controls:MetroWindow.Resources>
+        <Style TargetType="{x:Type ToggleButton}"
+               x:Key="HideExpanderArrowStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <Grid SnapsToDevicePixels="False"
+                                  Background="Transparent">
+                                <ContentPresenter SnapsToDevicePixels="True"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Center"
+                                                  RecognizesAccessKey="True" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="CheckBoxExpanderTemplate">
+            <CheckBox Content="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander}}"
+                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander}}"
+                      Foreground="White"
+                      FontWeight="{Binding FontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander}}"
+                      FontSize="14"
+                      Margin="2.5 2.5 2.5 2.5" />
+        </DataTemplate>
+    </controls:MetroWindow.Resources>
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
             <Button Command="{Binding OpenOnGitHub}"
@@ -117,9 +145,14 @@
                     </DockPanel>
                 </GroupBox>
 
-                <GroupBox Header="{x:Static properties:Resources.CastPointsAndBackswing}"
+                <Expander Header="{x:Static properties:Resources.AddCastPointsAndBackswing}"
+                          IsExpanded="{Binding Source={x:Static properties:Settings.Default}, Path=AddCastPointsAndBackswings, UpdateSourceTrigger=PropertyChanged}"
                           Padding="2.5"
-                          Grid.Row="1">
+                          Margin="5 2.5 5 2.5"
+                          Grid.Row="1"
+                          controls:ExpanderHelper.HeaderDownStyle="{StaticResource HideExpanderArrowStyle}"
+                          HeaderTemplate="{StaticResource CheckBoxExpanderTemplate}"
+                          FontWeight="SemiBold">
                     <StackPanel Orientation="Vertical">
 
                         <UniformGrid Columns="2">
@@ -169,50 +202,28 @@
                             </StackPanel>
                             <Expander Margin="2.5 2.5 2.5 2.5"
                                       Header="{x:Static properties:Resources.UseCustomColor}"
-                                      IsExpanded="{Binding Source={x:Static properties:Settings.Default}, Path=UseCustomColor}">
-                                <controls:ExpanderHelper.HeaderDownStyle>
-                                    <Style TargetType="{x:Type ToggleButton}">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                    <Border Padding="{TemplateBinding Padding}">
-                                                        <Grid SnapsToDevicePixels="False"
-                                                              Background="Transparent">
-                                                            <ContentPresenter SnapsToDevicePixels="True"
-                                                                              HorizontalAlignment="Left"
-                                                                              VerticalAlignment="Center"
-                                                                              RecognizesAccessKey="True" />
-                                                        </Grid>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </controls:ExpanderHelper.HeaderDownStyle>
-                                <Expander.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Content="{x:Static properties:Resources.UseCustomColor}"
-                                                  IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Expander}}"
-                                                  Foreground="White"
-                                                  Margin="2.5 2.5 2.5 2.5" />
-                                    </DataTemplate>
-                                </Expander.HeaderTemplate>
+                                      IsExpanded="{Binding Source={x:Static properties:Settings.Default}, Path=UseCustomColor}"
+                                      controls:ExpanderHelper.HeaderDownStyle="{StaticResource HideExpanderArrowStyle}"
+                                      HeaderTemplate="{StaticResource CheckBoxExpanderTemplate}"
+                                      FontWeight="Normal">
                                 <xctk:ColorCanvas UsingAlphaChannel="False"
                                                   SelectedColor="{Binding Source={x:Static properties:Settings.Default}, Path=SelectedColor}"
                                                   Margin="2.5 2.5 2.5 2.5" />
                             </Expander>
                         </UniformGrid>
                     </StackPanel>
-                </GroupBox>
-                <GroupBox Header="{x:Static properties:Resources.ExtraData}"
-                          Padding="2.5"
-                          Grid.Row="2">
-                    <StackPanel Orientation="Vertical">
-                        <CheckBox Content="{x:Static properties:Resources.AddMissingCastRanges}"
-                                  IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=AddMissingCastRanges, UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="2.5 2.5 2.5 2.5" FontWeight="SemiBold" FontSize="14" />
-                    </StackPanel>
-                </GroupBox>
+                </Expander>
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="2">
+                    <Expander Header="{x:Static properties:Resources.AddMissingCastRanges}"
+                              IsExpanded="{Binding Source={x:Static properties:Settings.Default}, Path=AddMissingCastRanges, UpdateSourceTrigger=PropertyChanged}"
+                              Padding="0"
+                              BorderThickness="1 1 1 0"
+                              Margin="5 2.5 5 2.5"
+                              controls:ExpanderHelper.HeaderDownStyle="{StaticResource HideExpanderArrowStyle}"
+                              HeaderTemplate="{StaticResource CheckBoxExpanderTemplate}"
+                              FontWeight="SemiBold"/>
+                </StackPanel>
                 <Button Grid.Row="3" Content="{x:Static properties:Resources.RetryDownload}"
                         Command="{Binding RetryDownloadCommand}"
                         Style="{StaticResource SquareButtonStyle}"

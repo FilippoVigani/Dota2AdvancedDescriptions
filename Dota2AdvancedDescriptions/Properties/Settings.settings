@@ -5,7 +5,7 @@
     <Setting Name="CastPointsTableIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="CastPointsTableXPath" Type="System.String" Scope="User">
+    <Setting Name="TableXPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">//table</Value>
     </Setting>
     <Setting Name="Tr" Type="System.String" Scope="User">
@@ -114,7 +114,22 @@
       <Value Profile="(Default)">steamapps\common\dota 2 beta\game\dota\resource</Value>
     </Setting>
     <Setting Name="AddMissingCastRanges" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CastRangesTableAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://dota2.gamepedia.com/Abilities/Cast_ranges?printable=yes</Value>
+    </Setting>
+    <Setting Name="CastRangeSuffixSkip" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cast_range</Value>
+    </Setting>
+    <Setting Name="CastRangeExtraStringFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CAST RANGE: {0}</Value>
+    </Setting>
+    <Setting Name="CastRangeValueColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#808080</Value>
+    </Setting>
+    <Setting Name="AddCastPointsAndBackswings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

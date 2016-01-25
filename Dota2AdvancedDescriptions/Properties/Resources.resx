@@ -210,4 +210,16 @@
   <data name="UseCustomColor" xml:space="preserve">
     <value>Use custom color</value>
   </data>
+  <data name="Hero" xml:space="preserve">
+    <value>Hero</value>
+  </data>
+  <data name="Neutral" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="AddCastPointsAndBackswing" xml:space="preserve">
+    <value>Add Cast Point and Backswing</value>
+  </data>
 </root>
