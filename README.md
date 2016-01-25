@@ -1,9 +1,9 @@
 <img src="https://cloud.githubusercontent.com/assets/8075379/12530591/5ee3a7fc-c1e3-11e5-8087-39fe492901b6.png" align="left" />
 #Dota2 Advanced Descriptions
 
-![Screenshot](https://cloud.githubusercontent.com/assets/8075379/12532680/d8d93b2c-c219-11e5-984a-98a9a785e9bd.png)
+![Screenshot](https://cloud.githubusercontent.com/assets/8075379/12564257/8e883fc8-c3ae-11e5-9ab2-4d9ccba26d44.png)
 
-An utility program for Dota 2 that allows you to add [cast points](http://dota2.gamepedia.com/Cast_animation#Cast_point) and [cast backswing](http://dota2.gamepedia.com/Cast_animation#Cast_backswing) to your abilities descriptions.
+An utility program for Dota 2 that allows you to add [cast points](http://dota2.gamepedia.com/Cast_animation#Cast_point), [cast backswing](http://dota2.gamepedia.com/Cast_animation#Cast_backswing) and missing cast ranges to your abilities descriptions.
 
 Get more information: they will make a difference!
 >inb4 muh skill cap
@@ -17,6 +17,8 @@ Get more information: they will make a difference!
  - Possibility to revert any changes made at any time
  - See a live preview as you make changes to know how it will look like in-game!
  - Preferences will be saved in case you want to re-create the same descriptions!
+ - Alternative Cast Point/Backswing display
+ - Automatic path detection
  - More to come! Feel free to leave suggestions as to what this application should do for you!
 
 ## Installation
