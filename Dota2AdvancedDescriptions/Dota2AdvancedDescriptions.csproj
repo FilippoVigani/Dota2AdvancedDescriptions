@@ -114,6 +114,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\PreviewTextPositionNullifierConvertercs.cs" />
     <Compile Include="Enums\ExtraTextPosition.cs" />
     <Compile Include="Helpers\EnumToItemsSource.cs" />

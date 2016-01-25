@@ -443,5 +443,41 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["DoomCastBackswingTextFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Steam")]
+        public string SteamExeName {
+            get {
+                return ((string)(this["SteamExeName"]));
+            }
+            set {
+                this["SteamExeName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("steamapps\\common\\dota 2 beta\\game\\dota\\resource")]
+        public string ResourceFolderSubdir {
+            get {
+                return ((string)(this["ResourceFolderSubdir"]));
+            }
+            set {
+                this["ResourceFolderSubdir"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AddMissingCastRanges {
+            get {
+                return ((bool)(this["AddMissingCastRanges"]));
+            }
+            set {
+                this["AddMissingCastRanges"] = value;
+            }
+        }
     }
 }

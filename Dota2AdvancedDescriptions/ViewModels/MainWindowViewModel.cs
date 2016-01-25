@@ -68,16 +68,19 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 ResetResourcesCommand.RaiseCanExecuteChanged();
                 CreateAdvancedDescriptionCommand.RaiseCanExecuteChanged();
                 LaunchDota.RaiseCanExecuteChanged();
+                SelectFileCommand.RaiseCanExecuteChanged();
             } else if (e.PropertyName == "SelectedResourcesFileName")
             {
                 OnPropertyChanged(() => ResourcesFilePath);
                 ResetResourcesCommand.RaiseCanExecuteChanged();
                 CreateAdvancedDescriptionCommand.RaiseCanExecuteChanged();
+                SelectFileCommand.RaiseCanExecuteChanged();
             }
         }
 
         internal void Load()
         {
+            Settings.Default.ResourcesFolderPath = Utility.GetResourcesFolder() ?? Settings.Default.ResourcesFolderPath;
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += delegate
             {

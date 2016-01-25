@@ -137,6 +137,20 @@ namespace Dota2AdvancedDescriptions.ViewModels
             }
         }
 
+        private DelegateCommand<object> selectFileCommand;
+
+        public DelegateCommand<object> SelectFileCommand
+        {
+            get
+            {
+                return this.selectFileCommand ?? (this.selectFileCommand = new DelegateCommand<object>((x) =>
+                {
+                    Utility.OpenFolderAndSelectFile(ResourcesFilePath);
+                }, x => { return File.Exists(ResourcesFilePath); }));
+            }
+        }
+        
+
 
         private bool isPublishingResources = false;
         private DelegateCommand<object> createAdvancedDescriptionCommand;

@@ -16,7 +16,7 @@
                       Title="Dota 2 Advanced Descriptions"
                       Closing="Window_Closing"
                       SizeToContent="Height"
-                      Width="1080"
+                      Width="1100"
                       Padding="2.5"
                       BorderBrush="{DynamicResource AccentColorBrush}"
                       BorderThickness="1"
@@ -57,6 +57,7 @@
                   Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -64,6 +65,23 @@
                 <GroupBox Header="{x:Static properties:Resources.Setup}"
                           Grid.Row="0">
                     <DockPanel>
+                        <Button DockPanel.Dock="Right"
+                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                HorizontalAlignment="Left"
+                                VerticalContentAlignment="Stretch"
+                                Margin="5 0 0 0"
+                                Command="{Binding SelectFileCommand}"
+                                ToolTip="{x:Static properties:Resources.ShowInExplorer}">
+                            <Rectangle Stretch="Uniform"
+                                       Margin="2.5"
+                                       Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"
+                                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform"
+                                                 Visual="{DynamicResource appbar_navigate_next}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
                         <ComboBox DockPanel.Dock="Right"
                                   MinWidth="150"
                                   ItemsSource="{Binding AvailableResourceFileNames}"
@@ -99,7 +117,7 @@
                     </DockPanel>
                 </GroupBox>
 
-                <GroupBox Header="{x:Static properties:Resources.Appearance}"
+                <GroupBox Header="{x:Static properties:Resources.CastPointsAndBackswing}"
                           Padding="2.5"
                           Grid.Row="1">
                     <StackPanel Orientation="Vertical">
@@ -115,7 +133,9 @@
                                           controls:TextBoxHelper.UseFloatingWatermark="True"
                                           IsEditable="True"
                                           IsReadOnly="True"
-                                          Margin="2.5 2.5 2.5 2.5" />
+                                          Margin="2.5 2.5 2.5 2.5"
+                                          FontWeight="SemiBold"
+                                          FontSize="14" />
                                 <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=CastPointTextFormat, UpdateSourceTrigger=PropertyChanged}"
                                          controls:TextBoxHelper.Watermark="{x:Static properties:Resources.CastPointTextFormat}"
                                          controls:TextBoxHelper.UseFloatingWatermark="True"
@@ -138,10 +158,14 @@
                                          ToolTip="{x:Static properties:Resources.DoomCastBackswingTooltip}" />
                                 <CheckBox Content="{x:Static properties:Resources.HideValuesIfEqualToZero}"
                                           IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=HideValuesIfEqualToZero, UpdateSourceTrigger=PropertyChanged}"
-                                          Margin="2.5 2.5 2.5 2.5" />
+                                          Margin="2.5 2.5 2.5 2.5"
+                                          FontWeight="SemiBold"
+                                          FontSize="14" />
                                 <CheckBox Content="{x:Static properties:Resources.NewLineAfterText}"
                                           IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=NewLineAfterText, UpdateSourceTrigger=PropertyChanged}"
-                                          Margin="2.5 2.5 2.5 2.5" />
+                                          Margin="2.5 2.5 2.5 2.5"
+                                          FontWeight="SemiBold"
+                                          FontSize="14" />
                             </StackPanel>
                             <Expander Margin="2.5 2.5 2.5 2.5"
                                       Header="{x:Static properties:Resources.UseCustomColor}"
@@ -180,7 +204,16 @@
                         </UniformGrid>
                     </StackPanel>
                 </GroupBox>
-                <Button Grid.Row="2" Content="{x:Static properties:Resources.RetryDownload}"
+                <GroupBox Header="{x:Static properties:Resources.ExtraData}"
+                          Padding="2.5"
+                          Grid.Row="2">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="{x:Static properties:Resources.AddMissingCastRanges}"
+                                  IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=AddMissingCastRanges, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="2.5 2.5 2.5 2.5" FontWeight="SemiBold" FontSize="14" />
+                    </StackPanel>
+                </GroupBox>
+                <Button Grid.Row="3" Content="{x:Static properties:Resources.RetryDownload}"
                         Command="{Binding RetryDownloadCommand}"
                         Style="{StaticResource SquareButtonStyle}"
                         controls:ButtonHelper.PreserveTextCase="True"

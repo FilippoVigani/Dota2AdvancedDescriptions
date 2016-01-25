@@ -107,5 +107,14 @@
     <Setting Name="DoomCastBackswingTextFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">Doom backswing: {0}</Value>
     </Setting>
+    <Setting Name="SteamExeName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Steam</Value>
+    </Setting>
+    <Setting Name="ResourceFolderSubdir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">steamapps\common\dota 2 beta\game\dota\resource</Value>
+    </Setting>
+    <Setting Name="AddMissingCastRanges" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

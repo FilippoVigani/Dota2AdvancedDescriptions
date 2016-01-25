@@ -49,8 +49,8 @@ namespace Dota2AdvancedDescriptions.Tools
                     {
                         var unitNameRes = names[0].ToString().Trim().Replace("\"", "");
                         var unitName = names[1].ToString().Trim().Replace("\"", "");
-                        if (unitNameRes == "sand_king") //Sandking hard fix: volvo pls...
-                            unitNameRes = "sandking";
+                        if (unitNameRes == "npc_dota_hero_sand_king") //Sandking hard fix: volvo pls...
+                            unitNameRes = "npc_dota_hero_sandking";
                         UnitNameResToName.Add(unitNameRes, unitName);
                     }
                 }

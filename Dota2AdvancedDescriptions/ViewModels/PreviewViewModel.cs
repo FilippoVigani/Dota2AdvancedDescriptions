@@ -47,7 +47,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
                 try { s3 = string.Format(s3, 1.07); } catch (Exception) { }
 
                 List<string> s = new List<string>{ s1,s2,s3 };
-                return string.Join(Settings.Default.NewLineAfterText ? Environment.NewLine : "", s.Where(x => !String.IsNullOrEmpty(x)));
+                return string.Join(Settings.Default.NewLineAfterText ? Environment.NewLine : "", s.Where(x => !String.IsNullOrEmpty(x))).Replace(@"\n", Environment.NewLine);
             }
         }
 

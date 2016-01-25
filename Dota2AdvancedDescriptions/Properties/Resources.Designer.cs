@@ -61,6 +61,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add missing cast ranges.
+        /// </summary>
+        public static string AddMissingCastRanges {
+            get {
+                return ResourceManager.GetString("AddMissingCastRanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Appearance.
         /// </summary>
         public static string Appearance {
@@ -84,6 +93,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         public static string CastBackswingTooltip {
             get {
                 return ResourceManager.GetString("CastBackswingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cast points and backswings.
+        /// </summary>
+        public static string CastPointsAndBackswing {
+            get {
+                return ResourceManager.GetString("CastPointsAndBackswing", resourceCulture);
             }
         }
         
@@ -147,6 +165,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         public static string DoomCastBackswingTooltip {
             get {
                 return ResourceManager.GetString("DoomCastBackswingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extra data.
+        /// </summary>
+        public static string ExtraData {
+            get {
+                return ResourceManager.GetString("ExtraData", resourceCulture);
             }
         }
         
@@ -291,6 +318,15 @@ namespace Dota2AdvancedDescriptions.Properties {
         public static string Setup {
             get {
                 return ResourceManager.GetString("Setup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show in File Explorer.
+        /// </summary>
+        public static string ShowInExplorer {
+            get {
+                return ResourceManager.GetString("ShowInExplorer", resourceCulture);
             }
         }
         
