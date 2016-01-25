@@ -153,6 +153,7 @@
                           controls:ExpanderHelper.HeaderDownStyle="{StaticResource HideExpanderArrowStyle}"
                           HeaderTemplate="{StaticResource CheckBoxExpanderTemplate}"
                           FontWeight="SemiBold">
+                    <ContentControl FontWeight="Normal">
                     <StackPanel Orientation="Vertical">
 
                         <UniformGrid Columns="2">
@@ -212,6 +213,7 @@
                             </Expander>
                         </UniformGrid>
                     </StackPanel>
+                    </ContentControl>
                 </Expander>
                 <StackPanel Orientation="Vertical"
                             Grid.Row="2">
