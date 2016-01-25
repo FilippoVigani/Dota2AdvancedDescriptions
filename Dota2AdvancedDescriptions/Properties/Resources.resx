@@ -141,6 +141,12 @@
   <data name="CreditsText" xml:space="preserve">
     <value>//Resources file edited with Dota 2 Advanced Descriptions by Filippo Vigani (Veega). https://github.com/VeegaP/Dota2AdvancedDescriptions</value>
   </data>
+  <data name="DoomCastBackswingTextFormat" xml:space="preserve">
+    <value>Doom cast backswing text format (for neutrals only)</value>
+  </data>
+  <data name="DoomCastBackswingTooltip" xml:space="preserve">
+    <value>Example: "Doom backswing: {0}" where {0} is the cast backswing of the spell from the creep devoured by Doom.</value>
+  </data>
   <data name="ExtraTextPosition" xml:space="preserve">
     <value>Text position</value>
   </data>

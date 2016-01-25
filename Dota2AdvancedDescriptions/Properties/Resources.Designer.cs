@@ -133,6 +133,24 @@ namespace Dota2AdvancedDescriptions.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Doom cast backswing text format (for neutrals only).
+        /// </summary>
+        public static string DoomCastBackswingTextFormat {
+            get {
+                return ResourceManager.GetString("DoomCastBackswingTextFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Example: &quot;Doom backswing: {0}&quot; where {0} is the cast backswing of the spell from the creep devoured by Doom..
+        /// </summary>
+        public static string DoomCastBackswingTooltip {
+            get {
+                return ResourceManager.GetString("DoomCastBackswingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text position.
         /// </summary>
         public static string ExtraTextPosition {

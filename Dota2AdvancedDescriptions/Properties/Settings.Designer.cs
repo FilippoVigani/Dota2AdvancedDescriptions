@@ -431,5 +431,17 @@ namespace Dota2AdvancedDescriptions.Properties {
                 this["NewLineAfterText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Doom backswing: {0}")]
+        public string DoomCastBackswingTextFormat {
+            get {
+                return ((string)(this["DoomCastBackswingTextFormat"]));
+            }
+            set {
+                this["DoomCastBackswingTextFormat"] = value;
+            }
+        }
     }
 }

@@ -13,9 +13,9 @@ namespace Dota2AdvancedDescriptions.Enums
         AboveDescription,
         [Description("Below description")]
         BelowDescription,
-        [Description("Above notes")]
+        [Description("Above notes [Press ALT to show it in-game]")]
         AboveNotes,
-        [Description("Below notes")]
+        [Description("Below notes [Press ALT to show it in-game]")]
         BelowNotes
     }
 }

@@ -103,7 +103,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         //foreach (var abilityKey in abilityKeys.Select(a => a.Key))
                         //{
                         var txtPos = (ExtraTextPosition)Settings.Default.ExtraTextPosition;
-                        string extraText = GetExtraText(abilityData.Value.Values.ElementAt(1), abilityData.Value.Values.ElementAt(2), abilityData.Value.Values.ElementAt(3), abilityKey == abilityKeys.ElementAt(0).Key ? modifier: "");
+                        string extraText = GetExtraText(abilityData.Value.Values.ElementAtOrDefault(1), abilityData.Value.Values.ElementAtOrDefault(2), abilityData.Value.Values.ElementAtOrDefault(3), abilityData.Value.Values.ElementAtOrDefault(4), abilityKey == abilityKeys.ElementAt(0).Key ? modifier: "");
                         if (txtPos == ExtraTextPosition.AboveDescription || txtPos == ExtraTextPosition.BelowDescription)
                         {
                             if (heroResources.ContainsKey(abilityKey + Settings.Default.DescriptionSuffix))
@@ -219,23 +219,32 @@ namespace Dota2AdvancedDescriptions.Tools
             }
         }
 
-        private string GetExtraText(string castPoint, string castBackswing, string rubickCastBackswing, string modifier)
+        private string GetExtraText(string castPoint, string castBackswing, string rubickCastBackswing, string doomCastBackswing, string modifier)
         {
             string s1 = Settings.Default.CastPointTextFormat;
             string s2 = Settings.Default.CastBackswingTextFormat;
             string s3 = Settings.Default.RubickCastBackswingTextFormat;
+            string s4 = Settings.Default.DoomCastBackswingTextFormat;
             try { s1 = string.Format(s1, castPoint); } catch (Exception) { }
             try { s2 = string.Format(s2, castBackswing); } catch (Exception) { }
             try { s3 = string.Format(s3, rubickCastBackswing); } catch (Exception) { }
+            if (string.IsNullOrEmpty(doomCastBackswing)) //Restrict to neutrals
+            {
+                s4 = null;
+            } else
+            {
+                try { s4 = string.Format(s4, doomCastBackswing); } catch (Exception) { }
+            }
 
             if (Settings.Default.HideValuesIfEqualToZero)
             {
                 if (castPoint == "0") s1 = "";
                 if (castBackswing == "0") s2 = "";
                 if (rubickCastBackswing == "0") s3 = "";
+                if (doomCastBackswing == "0") s4 = "";
             }
 
-            List<string> s = new List<string> { s1, s2, s3 };
+            List<string> s = new List<string> { s1, s2, s3, s4 };
             string separated = string.Join(Settings.Default.NewLineAfterText ? @"\n" : "", s.Where(x => !string.IsNullOrEmpty(x)));
             if (Settings.Default.UseCustomColor)
             {

@@ -104,5 +104,8 @@
     <Setting Name="NewLineAfterText" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="DoomCastBackswingTextFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Doom backswing: {0}</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

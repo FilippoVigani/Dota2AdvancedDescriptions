@@ -131,6 +131,11 @@
                                          controls:TextBoxHelper.UseFloatingWatermark="True"
                                          Margin="2.5 2.5 2.5 2.5"
                                          ToolTip="{x:Static properties:Resources.RubickCastBackswingTooltip}" />
+                                <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=DoomCastBackswingTextFormat, UpdateSourceTrigger=PropertyChanged}"
+                                         controls:TextBoxHelper.Watermark="{x:Static properties:Resources.DoomCastBackswingTextFormat}"
+                                         controls:TextBoxHelper.UseFloatingWatermark="True"
+                                         Margin="2.5 2.5 2.5 2.5"
+                                         ToolTip="{x:Static properties:Resources.DoomCastBackswingTooltip}" />
                                 <CheckBox Content="{x:Static properties:Resources.HideValuesIfEqualToZero}"
                                           IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=HideValuesIfEqualToZero, UpdateSourceTrigger=PropertyChanged}"
                                           Margin="2.5 2.5 2.5 2.5" />
