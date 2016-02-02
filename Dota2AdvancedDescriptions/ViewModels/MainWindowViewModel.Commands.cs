@@ -40,7 +40,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
                         ResetResourcesCommand.RaiseCanExecuteChanged();
                     };
                     worker.RunWorkerAsync();
-                }, x => { return !isPublishingResources && File.Exists(_resourcesEditor.GetBackupFile(ResourcesFilePath)); }));
+                }, x => { return !isPublishingResources && File.Exists(_resourcesEditor.GetBackupFile(ResourcesFilePath)) && File.ReadAllText(ResourcesFilePath).IndexOf(Resources.CreditsText) >= 0; }));
             }
         }
 
