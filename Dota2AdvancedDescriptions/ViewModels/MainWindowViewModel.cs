@@ -57,6 +57,7 @@ namespace Dota2AdvancedDescriptions.ViewModels
             StatusBarHelper.Instance = new StatusBarHelper(StatusBarViewModel);
             PreviewViewModel = new PreviewViewModel();
             Settings.Default.PropertyChanged += SettingsPropertyChanged;
+            Settings.Default.Upgrade();
         }
 
         private void SettingsPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
