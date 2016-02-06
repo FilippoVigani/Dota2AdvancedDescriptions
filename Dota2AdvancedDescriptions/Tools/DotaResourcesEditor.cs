@@ -32,14 +32,7 @@ namespace Dota2AdvancedDescriptions.Tools
         public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, Dictionary<string, string>> parsedResources, List<string> headers)
         {
             StatusBarHelper.Instance.SetStatus("Creating new resources file...");
-            //TmpFilePath = Path.Combine(Path.GetTempPath(), Path.GetFileName(filePath));
-            //File.Copy(filePath, TmpFilePath, true);
             TmpFilePath = Path.GetTempFileName();
-            /*
-            StreamReader reader = new StreamReader(filePath);
-            string input = reader.ReadToEnd();
-            reader.Close();
-            */
             var lines = File.ReadAllLines(filePath).ToList();
             using (StreamWriter writer = new StreamWriter(TmpFilePath, true, Utility.GetEncoding(filePath)))
             {
@@ -56,15 +49,10 @@ namespace Dota2AdvancedDescriptions.Tools
                     List<string> addedAbilitiesNames = new List<string>();
                     foreach (var abilityData in data)
                     {
-                        string heroName = abilityData.Key.Substring(0, abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator)).Trim();
-                        string abilityName = abilityData.Key.Substring(abilityData.Key.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
-                        string modifier = "";
-                        //Fix for spells such as brewmaster with double separator
-                        if (abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) >= 0)
-                        {
-                            modifier = abilityName.Substring(0, abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator)).Trim();
-                            abilityName = abilityName.Substring(abilityName.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
-                        }
+                        var details = Regex.Split(abilityData.Key, Settings.Default.TableAbilityHeroSeparator);
+                        string heroName = details.Length > 0 ? details[0].Trim() : string.Empty;
+                        string abilityName = details.Length > 1 ? details[1].Trim() : string.Empty;
+                        string modifier = details.Length > 2 ? details[2].Trim() : string.Empty;
 
                         var heroResources = parsedResources.FirstOrDefault(res => heroName.Equals(res.Key, StringComparison.OrdinalIgnoreCase)).Value;
                         if (heroResources == null) continue;

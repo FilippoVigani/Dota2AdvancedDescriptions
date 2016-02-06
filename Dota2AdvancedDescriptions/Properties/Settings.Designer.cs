@@ -134,7 +134,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(" - ")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
         public string TableAbilityHeroSeparator {
             get {
                 return ((string)(this["TableAbilityHeroSeparator"]));

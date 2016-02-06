@@ -30,7 +30,7 @@
       <Value Profile="(Default)">DOTA_Tooltip_ability</Value>
     </Setting>
     <Setting Name="TableAbilityHeroSeparator" Type="System.String" Scope="User">
-      <Value Profile="(Default)"> - </Value>
+      <Value Profile="(Default)">-</Value>
     </Setting>
     <Setting Name="HeroNamePrefix" Type="System.String" Scope="User">
       <Value Profile="(Default)">npc_dota_hero_</Value>
