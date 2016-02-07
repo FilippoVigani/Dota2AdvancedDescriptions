@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -33,9 +34,10 @@ namespace Dota2AdvancedDescriptions.Tools
             ParseFailed = false;
             try
             {
-                StatusBarHelper.Instance.SetStatus(String.Format("Downloading data from {0}", address.Replace("http://",string.Empty)));
+                StatusBarHelper.Instance.SetStatus(String.Format("Downloading data from {0}", address.Replace("http://", string.Empty)));
                 ServicePointManager.DefaultConnectionLimit = int.MaxValue;
-                using (WebClient webClient = new WebClient()){
+                using (WebClient webClient = new WebClient())
+                {
                     webClient.Proxy = null;
                     string page = webClient.DownloadString(address);
 
@@ -53,7 +55,7 @@ namespace Dota2AdvancedDescriptions.Tools
                         }
                     }
 
-                    foreach(HtmlNode node in nodes)
+                    foreach (HtmlNode node in nodes)
                     {
                         foreach (var row in node.Descendants(Settings.Default.Tr).Skip(1).Where(tr => tr.Elements(Settings.Default.Td).Count() > 1))
                         {
@@ -62,6 +64,7 @@ namespace Dota2AdvancedDescriptions.Tools
                             for (int i = 0; i < row.Elements(Settings.Default.Td).Count(); i++)
                             {
                                 string value = row.Elements(Settings.Default.Td).ElementAt(i).InnerText.Trim();
+                                value = WebUtility.HtmlDecode(value);
                                 if (value.Contains(Settings.Default.HtmlParsingIgnoreModifier))
                                 {
                                     value = value.Substring(value.IndexOf(Settings.Default.TableAbilityHeroSeparator) + Settings.Default.TableAbilityHeroSeparator.Length).Trim();
@@ -91,7 +94,8 @@ namespace Dota2AdvancedDescriptions.Tools
                                         ParsedData[parsedRow.ElementAt(Settings.Default.TableIdIndex).Value].Add(val.Key, val.Value);
                                     }
                                 }
-                            } else
+                            }
+                            else
                             {
                                 ParsedData.Add(parsedRow.ElementAt(Settings.Default.TableIdIndex).Value, parsedRow);
                             }
@@ -109,10 +113,11 @@ namespace Dota2AdvancedDescriptions.Tools
                 ParsedData = new Dictionary<string, Dictionary<string, string>>();
                 Headers = new List<string>();
                 var r = MessageBox.Show("Connection to the server " + address + "has failed:\n" + e.Message + "\nCheck the connection to the server or retry later.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            } finally
+            }
+            finally
             {
                 working = false;
             }
-        } 
+        }
     }
 }
