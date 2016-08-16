@@ -29,6 +29,16 @@ namespace Dota2AdvancedDescriptions.Tools
         {
         }
 
+        public Dictionary<string, string> HeroNameHardFixes = new Dictionary<string, string>()
+        {
+            { "Anti", "Anti-Mage" }
+        };
+
+        private string HardFixHeroName(string srcHeroName)
+        {
+            return HeroNameHardFixes.ContainsKey(srcHeroName) ? HeroNameHardFixes[srcHeroName] : srcHeroName;
+        }
+
         public void PrepareResources(string filePath, Dictionary<string, Dictionary<string, string>> data, Dictionary<string, Dictionary<string, string>> parsedResources, List<string> headers)
         {
             StatusBarHelper.Instance.SetStatus("Creating new resources file...");
@@ -50,7 +60,11 @@ namespace Dota2AdvancedDescriptions.Tools
                     foreach (var abilityData in data)
                     {
                         var details = Regex.Split(abilityData.Key, Settings.Default.TableAbilityHeroSeparator);
-                        string heroName = details.Length > 0 ? details[0].Trim() : string.Empty;
+                        string heroName = details.Length > 0 ? HardFixHeroName(details[0].Trim()) : string.Empty;
+                        if (heroName.Contains(Settings.Default.TableAbilityHeroSeparator))
+                        {
+                            details = Regex.Split(abilityData.Key.Replace(heroName, heroName.Replace(Settings.Default.TableAbilityHeroSeparator, "")), Settings.Default.TableAbilityHeroSeparator);
+                        }
                         string abilityName = details.Length > 1 ? details[1].Trim() : string.Empty;
                         string modifier = details.Length > 2 ? details[2].Trim() : string.Empty;
 
