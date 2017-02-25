@@ -318,7 +318,7 @@ namespace Dota2AdvancedDescriptions.Tools
             }
             //Backing up old file
             Directory.CreateDirectory(AppData);
-            if (!File.Exists(GetBackupFile(filePath)))
+            if (!(File.ReadAllText(filePath).IndexOf(Resources.CreditsText) >= 0))
             {
                 File.Copy(filePath, GetBackupFile(filePath));
             }
