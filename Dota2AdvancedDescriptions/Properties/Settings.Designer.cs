@@ -482,7 +482,7 @@ namespace Dota2AdvancedDescriptions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://dota2.gamepedia.com/Abilities/Cast_ranges?printable=yes")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dota2.gamepedia.com/Cast_range?printable=yes")]
         public string CastRangesTableAddress {
             get {
                 return ((string)(this["CastRangesTableAddress"]));

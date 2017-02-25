@@ -117,7 +117,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CastRangesTableAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://dota2.gamepedia.com/Abilities/Cast_ranges?printable=yes</Value>
+      <Value Profile="(Default)">http://dota2.gamepedia.com/Cast_range?printable=yes</Value>
     </Setting>
     <Setting Name="CastRangeSuffixSkip" Type="System.String" Scope="User">
       <Value Profile="(Default)">cast_range</Value>
