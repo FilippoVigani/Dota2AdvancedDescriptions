@@ -39,27 +39,35 @@ namespace Dota2AdvancedDescriptions.Tools
                 StatusBarHelper.Instance.SetStatus(String.Format("Downloading data from {0}", address.Replace("http://", string.Empty)));
                 ServicePointManager.DefaultConnectionLimit = int.MaxValue;
 
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                
                 string page = "";
-                if (response.StatusCode == HttpStatusCode.OK)
+                for (int i = 0; i < 5 && string.IsNullOrEmpty(page); i++) //For some reason every now and then gamepedia returns an empty body, so I try an arbitrary number of times
                 {
-                    Stream receiveStream = response.GetResponseStream();
-                    StreamReader readStream = null;
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                    if (response.CharacterSet == null)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        readStream = new StreamReader(receiveStream);
-                    }
-                    else
+                        Stream receiveStream = response.GetResponseStream();
+                        StreamReader readStream = null;
+
+                        if (response.CharacterSet == null)
+                        {
+                            readStream = new StreamReader(receiveStream);
+                        }
+                        else
+                        {
+                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        }
+
+                        page = readStream.ReadToEnd();
+
+                        response.Close();
+                        readStream.Close();
+                    } else
                     {
-                        readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        break;
                     }
-
-                    page = readStream.ReadToEnd();
-
-                    response.Close();
-                    readStream.Close();
                 }
                 
                 HtmlDocument doc = new HtmlDocument();
